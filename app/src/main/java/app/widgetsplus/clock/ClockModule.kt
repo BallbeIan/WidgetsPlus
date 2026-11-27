@@ -8,13 +8,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.glance.appwidget.updateAll
 import app.widgetsplus.R
+import app.widgetsplus.core.ui.Hue
 import app.widgetsplus.core.WidgetKind
 import app.widgetsplus.core.WidgetModule
 import app.widgetsplus.core.WidgetSettings
-import app.widgetsplus.core.ui.HelpText
-import app.widgetsplus.core.ui.ModuleScaffold
+import app.widgetsplus.core.WidgetStyle
+import app.widgetsplus.core.ui.Footnote
 import app.widgetsplus.core.ui.ModuleWidgetsCard
-import app.widgetsplus.core.ui.SectionTitle
+import app.widgetsplus.core.ui.Page
+import app.widgetsplus.core.ui.SectionHeader
 import app.widgetsplus.core.widget.openAppIntent
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -27,9 +29,12 @@ object ClockModule : WidgetModule {
     override val title = R.string.clock_title
     override val description = R.string.clock_description
     override val icon = R.drawable.ic_module_clock
+    override val hue = Hue.ORANGE
+    override val hasTab = false
 
     val digital = WidgetKind(DigitalClockWidgetReceiver::class.java, R.string.widget_digital_clock_name, R.string.widget_digital_clock_description, R.drawable.ic_module_clock, ClockConfigureActivity::class.java)
-    val analog = WidgetKind(AnalogClockWidgetReceiver::class.java, R.string.widget_analog_clock_name, R.string.widget_analog_clock_description, R.drawable.ic_widget_analog, null)
+    val analog = WidgetKind(AnalogClockWidgetReceiver::class.java, R.string.widget_analog_clock_name, R.string.widget_analog_clock_description, R.drawable.ic_widget_analog, null,
+        defaultStyle = WidgetStyle(opacity = 0))
     override val widgets = listOf(digital, analog)
 
     private const val KEY_ZONE = "zone"
@@ -73,13 +78,13 @@ object ClockModule : WidgetModule {
     override fun summary(): String = stringResource(R.string.clock_summary)
 
     @Composable
-    override fun Screen(onBack: () -> Unit) {
+    override fun Screen() {
         val context = LocalContext.current
-        ModuleScaffold(stringResource(R.string.clock_title), onBack) {
-            item { HelpText(stringResource(R.string.clock_help)) }
-            item { SectionTitle(stringResource(R.string.widgets_title)) }
+        Page(stringResource(R.string.clock_title)) {
+            item { SectionHeader(stringResource(R.string.widgets_title)) }
             item { ModuleWidgetsCard(ClockModule) }
-            item { HelpText(stringResource(R.string.clock_widgets_help, context.getString(R.string.on_home_screen))) }
+            item { Footnote(stringResource(R.string.clock_help)) }
+            item { Footnote(stringResource(R.string.clock_widgets_help, context.getString(R.string.on_home_screen))) }
         }
     }
 

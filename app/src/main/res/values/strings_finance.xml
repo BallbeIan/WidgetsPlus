@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="finance_delete_list">Delete list</string>
+    <string name="finance_lists">Lists</string>
+    <string name="finance_type">Type</string>
+    <string name="finance_symbol_placeholder">Symbol, for example %1$s</string>
+</resources>

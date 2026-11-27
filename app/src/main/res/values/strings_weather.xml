@@ -18,6 +18,7 @@
     <string name="weather_no_results">No places found.</string>
     <string name="weather_choose_place">Choose a place</string>
     <string name="weather_unit">Temperature</string>
+    <string name="weather_units">Units</string>
     <string name="weather_celsius">Celsius (°C)</string>
     <string name="weather_fahrenheit">Fahrenheit (°F)</string>
     <string name="weather_credit">Weather data by Open-Meteo.com (CC BY 4.0). Only the place you search for or its coordinates are sent; no location permission is used.</string>

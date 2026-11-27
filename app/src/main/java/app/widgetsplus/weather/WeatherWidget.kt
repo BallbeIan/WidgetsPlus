@@ -1,5 +1,6 @@
 package app.widgetsplus.weather
 
+import app.widgetsplus.core.widget.StyledWidget
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -55,7 +56,7 @@ class WeatherWidget : GlanceAppWidget() {
         val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
         provideContent {
             val s by repo.state.collectAsState()
-            GlanceTheme { Content(s, repo.placeForWidget(appWidgetId, s)) }
+            StyledWidget(appWidgetId) { Content(s, repo.placeForWidget(appWidgetId, s)) }
         }
     }
 

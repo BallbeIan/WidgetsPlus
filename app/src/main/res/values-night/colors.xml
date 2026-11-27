@@ -5,4 +5,5 @@
     <color name="widget_accent">#FFD0BCFF</color>
     <color name="clock_face">#FF2B2930</color>
     <color name="clock_tick">#FF938F99</color>
+    <color name="app_background">#FF000000</color>
 </resources>

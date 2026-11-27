@@ -1,6 +1,5 @@
 package app.widgetsplus.finance.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,17 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,11 +25,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import app.widgetsplus.core.ui.Footnote
+import app.widgetsplus.core.ui.Chip
 import app.widgetsplus.R
+import app.widgetsplus.core.ui.Accent
+import app.widgetsplus.core.ui.CapsuleButton
+import app.widgetsplus.core.ui.DownText
+import app.widgetsplus.core.ui.FieldRow
+import app.widgetsplus.core.ui.Grouped
+import app.widgetsplus.core.ui.Hairline
+import app.widgetsplus.core.ui.ListRow
+import app.widgetsplus.core.ui.Num
+import app.widgetsplus.core.ui.SectionHeader
+import app.widgetsplus.core.ui.UpText
 import app.widgetsplus.finance.AssetType
 import app.widgetsplus.finance.FinanceFormat
 import app.widgetsplus.finance.FinanceRepository
@@ -45,24 +48,29 @@ import app.widgetsplus.finance.PriceSources
 import app.widgetsplus.finance.Quote
 import app.widgetsplus.finance.UnknownSymbolException
 import app.widgetsplus.finance.WatchItem
-import app.widgetsplus.finance.widget.DownDay
-import app.widgetsplus.finance.widget.DownNight
-import app.widgetsplus.finance.widget.UpDay
-import app.widgetsplus.finance.widget.UpNight
 import kotlinx.coroutines.launch
 
+/** Price up or down, as text that reads well on the app's background. */
 @Composable
-fun changeColor(change: Double): Color {
-    val dark = isSystemInDarkTheme()
-    return if (change >= 0) if (dark) UpNight else UpDay else if (dark) DownNight else DownDay
-}
+fun changeColor(change: Double): Color = if (change >= 0) UpText else DownText
 
-/** Symbol and name on the left, price and change on the right, then any [trailing] buttons. */
+/**
+ * One symbol as a row of a grouped list: [leading], symbol and name, then price and change (when [showQuote]),
+ * then [trailing].
+ */
 @Composable
-fun ItemSummary(item: WatchItem, quote: Quote?, modifier: Modifier = Modifier, trailing: @Composable () -> Unit = {}) {
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+fun ItemSummary(
+    item: WatchItem,
+    quote: Quote?,
+    modifier: Modifier = Modifier,
+    showQuote: Boolean = true,
+    leading: (@Composable () -> Unit)? = null,
+    trailing: (@Composable () -> Unit)? = null,
+) {
+    Row(modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        if (leading != null) { leading(); Spacer(Modifier.width(12.dp)) }
         Column(Modifier.weight(1f)) {
-            Text(item.label, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 1)
+            Text(item.label, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
                 item.name,
                 style = MaterialTheme.typography.bodySmall,
@@ -71,21 +79,34 @@ fun ItemSummary(item: WatchItem, quote: Quote?, modifier: Modifier = Modifier, t
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        Column(horizontalAlignment = Alignment.End) {
-            Text(quote?.let { FinanceFormat.price(it.price, it.currency) } ?: "—", style = MaterialTheme.typography.bodyLarge)
-            if (quote != null) {
-                Text(FinanceFormat.percent(quote.changePercent), style = MaterialTheme.typography.bodySmall, color = changeColor(quote.change))
+        if (showQuote) {
+            Column(Modifier.padding(start = 8.dp), horizontalAlignment = Alignment.End) {
+                Text(
+                    quote?.let { FinanceFormat.price(it.price, it.currency) } ?: "–",
+                    style = MaterialTheme.typography.bodyLarge.merge(Num),
+                    maxLines = 1,
+                )
+                if (quote != null) {
+                    Text(
+                        FinanceFormat.percent(quote.changePercent),
+                        style = MaterialTheme.typography.bodySmall.merge(Num),
+                        fontWeight = FontWeight.Medium,
+                        color = changeColor(quote.change),
+                    )
+                }
             }
         }
-        trailing()
+        if (trailing != null) { Spacer(Modifier.width(8.dp)); trailing() }
     }
 }
 
+
+
 /**
- * Type picker, symbol field and Add button. The symbol is checked online before it is added.
+ * "Add a stock or coin": a header, a grouped card with the type and the symbol field with an Add button, and the
+ * help or error underneath. The symbol is checked online before it is added.
  * [targetList] picks the list to add to, given the chosen type.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddSymbolCard(
     repo: FinanceRepository,
@@ -127,41 +148,37 @@ fun AddSymbolCard(
         }
     }
 
-    Card(modifier) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(stringResource(R.string.add_symbol), style = MaterialTheme.typography.titleMedium)
-            SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-                AssetType.entries.forEachIndexed { i, t ->
-                    SegmentedButton(
-                        selected = type == t,
-                        onClick = { type = t; error = null },
-                        shape = SegmentedButtonDefaults.itemShape(i, AssetType.entries.size),
-                    ) { Text(stringResource(if (t == AssetType.STOCK) R.string.type_stock else R.string.type_crypto)) }
+    Column(modifier.fillMaxWidth()) {
+        SectionHeader(stringResource(R.string.add_symbol))
+        Grouped {
+            ListRow(stringResource(R.string.finance_type), trailing = {
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    AssetType.entries.forEach { t ->
+                        Chip(
+                            stringResource(if (t == AssetType.STOCK) R.string.type_stock else R.string.type_crypto),
+                            selected = type == t,
+                            onClick = { type = t; error = null },
+                        )
+                    }
                 }
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it; error = null },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true,
-                    label = { Text(stringResource(R.string.symbol)) },
-                    placeholder = { Text(stringResource(if (type == AssetType.STOCK) R.string.hint_stock else R.string.hint_crypto)) },
-                    isError = error != null,
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Characters, imeAction = ImeAction.Done, autoCorrectEnabled = false),
-                    keyboardActions = KeyboardActions(onDone = { add() }),
-                )
-                Spacer(Modifier.width(12.dp))
-                Button(onClick = { add() }, enabled = text.isNotBlank() && !busy) {
-                    if (busy) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
-                    else Text(stringResource(R.string.add))
-                }
-            }
-            Text(
-                error ?: stringResource(if (type == AssetType.STOCK) R.string.help_stock else R.string.help_crypto),
-                style = MaterialTheme.typography.bodySmall,
-                color = if (error != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+            })
+            Hairline()
+            FieldRow(
+                value = text,
+                onChange = { text = it; error = null },
+                placeholder = stringResource(R.string.finance_symbol_placeholder, stringResource(if (type == AssetType.STOCK) R.string.hint_stock else R.string.hint_crypto)),
+                capitalization = KeyboardCapitalization.Characters,
+                onDone = { add() },
+                trailing = {
+                    Spacer(Modifier.width(8.dp))
+                    if (busy) CircularProgressIndicator(Modifier.padding(horizontal = 14.dp).size(18.dp), color = Accent, strokeWidth = 2.dp)
+                    else CapsuleButton(stringResource(R.string.add), onClick = { add() }, enabled = text.isNotBlank())
+                },
             )
         }
+        Footnote(
+            error ?: stringResource(if (type == AssetType.STOCK) R.string.help_stock else R.string.help_crypto),
+            error = error != null,
+        )
     }
 }

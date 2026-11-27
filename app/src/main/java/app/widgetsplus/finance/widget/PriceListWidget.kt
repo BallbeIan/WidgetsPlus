@@ -1,5 +1,8 @@
 package app.widgetsplus.finance.widget
 
+import app.widgetsplus.core.widget.backgroundIsDark
+import app.widgetsplus.core.widget.LocalWidgetStyle
+import app.widgetsplus.core.widget.StyledWidget
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -60,7 +63,7 @@ class PriceListWidget : GlanceAppWidget() {
         val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
         provideContent {
             val s by repo.state.collectAsState()
-            GlanceTheme { Content(s, repo.listForWidget(appWidgetId, s)) }
+            StyledWidget(appWidgetId) { Content(s, repo.listForWidget(appWidgetId, s)) }
         }
     }
 
@@ -112,7 +115,7 @@ class PriceListWidget : GlanceAppWidget() {
                 Text(item.name, maxLines = 1, style = TextStyle(color = GlanceTheme.colors.onSurfaceVariant, fontSize = 11.sp))
             }
             if (showChart && quote != null) {
-                priceChart(context, quote, 64f, 26f)?.let {
+                priceChart(context, quote, 64f, 26f, backgroundIsDark(LocalWidgetStyle.current))?.let {
                     Image(ImageProvider(it), contentDescription = null, modifier = GlanceModifier.width(64.dp).height(26.dp))
                     Spacer(GlanceModifier.width(10.dp))
                 }

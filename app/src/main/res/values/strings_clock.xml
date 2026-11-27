@@ -14,8 +14,9 @@
     <string name="choose_clock">Set up the clock</string>
     <string name="clock_label_field">Label (optional)</string>
     <string name="clock_label_help">Shown above the time, for example \"Home\" or \"Office\". Other time zones show the city name if you leave this empty.</string>
+    <string name="clock_label_title">Label</string>
+    <string name="clock_time_zone_title">Time zone</string>
     <string name="other_time_zone">Another time zone</string>
-    <string name="search_city">Search for a city</string>
     <string name="search_city_hint">Tokyo, New York, London…</string>
     <string name="no_time_zone_found">No time zone found. Try a nearby large city.</string>
 </resources>

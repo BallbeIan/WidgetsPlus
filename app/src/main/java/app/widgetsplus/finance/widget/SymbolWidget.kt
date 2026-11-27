@@ -1,5 +1,8 @@
 package app.widgetsplus.finance.widget
 
+import app.widgetsplus.core.widget.backgroundIsDark
+import app.widgetsplus.core.widget.LocalWidgetStyle
+import app.widgetsplus.core.widget.StyledWidget
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -52,7 +55,7 @@ class SymbolWidget : GlanceAppWidget() {
         val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
         provideContent {
             val s by repo.state.collectAsState()
-            GlanceTheme { Content(s, repo.itemForWidget(appWidgetId, s)) }
+            StyledWidget(appWidgetId) { Content(s, repo.itemForWidget(appWidgetId, s)) }
         }
     }
 
@@ -100,7 +103,7 @@ class SymbolWidget : GlanceAppWidget() {
             val showFooter = size.height >= 170.dp
             // Height left for the chart after padding, the rows above and the footer.
             val chartHeight = size.height.value - 24 - 20 - 32 - (if (showName) 16 else 0) - (if (showFooter) 32 else 0)
-            val chart = if (quote != null && chartHeight >= 28) priceChart(context, quote, size.width.value - 28, chartHeight - 8) else null
+            val chart = if (quote != null && chartHeight >= 28) priceChart(context, quote, size.width.value - 28, chartHeight - 8, backgroundIsDark(LocalWidgetStyle.current)) else null
             if (chart != null) {
                 Spacer(GlanceModifier.height(8.dp))
                 Image(ImageProvider(chart), contentDescription = null, modifier = GlanceModifier.fillMaxWidth().defaultWeight())

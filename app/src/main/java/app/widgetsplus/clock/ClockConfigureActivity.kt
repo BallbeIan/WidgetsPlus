@@ -1,26 +1,21 @@
 package app.widgetsplus.clock
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.unit.dp
 import app.widgetsplus.R
-import app.widgetsplus.core.ui.ChoiceCard
+import app.widgetsplus.core.ui.CheckRow
 import app.widgetsplus.core.ui.ConfigureScaffold
-import app.widgetsplus.core.ui.HelpText
-import app.widgetsplus.core.ui.SectionTitle
+import app.widgetsplus.core.ui.FieldRow
+import app.widgetsplus.core.ui.Footnote
+import app.widgetsplus.core.ui.Grouped
+import app.widgetsplus.core.ui.Hairline
+import app.widgetsplus.core.ui.ListRow
+import app.widgetsplus.core.ui.SectionHeader
 import app.widgetsplus.core.ui.WidgetConfigureActivity
 import java.time.ZoneId
 
@@ -50,62 +45,51 @@ class ClockConfigureActivity : WidgetConfigureActivity() {
         fun choose(zone: ZoneId?) = finishWith(DigitalClockWidget()) { ClockModule.setClock(this, appWidgetId, zone, label) }
 
         ConfigureScaffold(stringResource(R.string.choose_clock)) {
+            item { SectionHeader(stringResource(R.string.clock_label_title)) }
             item {
-                OutlinedTextField(
-                    value = label,
-                    onValueChange = { label = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    label = { Text(stringResource(R.string.clock_label_field)) },
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
-                )
-            }
-            item { HelpText(stringResource(R.string.clock_label_help)) }
-            item {
-                ChoiceCard(
-                    selected = current == null,
-                    title = stringResource(R.string.local_time),
-                    subtitle = stringResource(R.string.local_time_help),
-                    onClick = { choose(null) },
-                )
-            }
-            if (current != null) {
-                item {
-                    ChoiceCard(
-                        selected = true,
-                        title = ClockModule.cityName(current),
-                        subtitle = "${ClockModule.zoneLongName(current)} · ${ClockModule.offsetText(current)}",
-                        onClick = { choose(current) },
-                    )
+                Grouped {
+                    FieldRow(label, { label = it }, stringResource(R.string.clock_label_field), capitalization = KeyboardCapitalization.Words)
                 }
             }
-            item { SectionTitle(stringResource(R.string.other_time_zone)) }
+            item { Footnote(stringResource(R.string.clock_label_help)) }
+
+            item { SectionHeader(stringResource(R.string.clock_time_zone_title)) }
             item {
-                OutlinedTextField(
-                    value = query,
-                    onValueChange = { query = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    label = { Text(stringResource(R.string.search_city)) },
-                    placeholder = { Text(stringResource(R.string.search_city_hint)) },
-                )
+                Grouped {
+                    CheckRow(
+                        title = stringResource(R.string.local_time),
+                        selected = current == null,
+                        subtitle = stringResource(R.string.local_time_help),
+                        onClick = { choose(null) },
+                    )
+                    if (current != null) {
+                        Hairline()
+                        CheckRow(
+                            title = ClockModule.cityName(current),
+                            selected = true,
+                            subtitle = "${ClockModule.zoneLongName(current)} · ${ClockModule.offsetText(current)}",
+                            onClick = { choose(current) },
+                        )
+                    }
+                }
+            }
+
+            item { SectionHeader(stringResource(R.string.other_time_zone)) }
+            item {
+                Grouped {
+                    FieldRow(query, { query = it }, stringResource(R.string.search_city_hint), capitalization = KeyboardCapitalization.Words)
+                    matches.forEach { zone ->
+                        Hairline()
+                        ListRow(
+                            title = ClockModule.cityName(zone),
+                            subtitle = "${zone.id.substringBefore('/')} · ${ClockModule.zoneLongName(zone)} · ${ClockModule.offsetText(zone)}",
+                            onClick = { choose(zone) },
+                        )
+                    }
+                }
             }
             if (query.trim().length >= 2 && matches.isEmpty()) {
-                item {
-                    Text(
-                        stringResource(R.string.no_time_zone_found),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(4.dp),
-                    )
-                }
-            }
-            items(matches, key = { it.id }) { zone ->
-                ChoiceCard(
-                    selected = false,
-                    title = ClockModule.cityName(zone),
-                    subtitle = "${zone.id.substringBefore('/')} · ${ClockModule.zoneLongName(zone)} · ${ClockModule.offsetText(zone)}",
-                    onClick = { choose(zone) },
-                )
+                item { Footnote(stringResource(R.string.no_time_zone_found)) }
             }
         }
     }

@@ -7,7 +7,9 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import app.widgetsplus.core.ui.Hue
 import app.widgetsplus.clock.ClockModule
 import app.widgetsplus.days.DaysModule
 import app.widgetsplus.finance.FinanceModule
@@ -25,6 +27,12 @@ interface WidgetModule {
     @get:StringRes val description: Int
     @get:DrawableRes val icon: Int
 
+    /** The category's colour: its icon squircles and tab. */
+    val hue: Hue
+
+    /** Whether the module has things to set up (lists, places, events) and so gets a tab in the app. */
+    val hasTab: Boolean get() = true
+
     /** The widget types this module offers in the launcher's widget picker. */
     val widgets: List<WidgetKind>
 
@@ -32,7 +40,7 @@ interface WidgetModule {
     @Composable fun summary(): String
 
     /** The module's own settings screen inside the app. */
-    @Composable fun Screen(onBack: () -> Unit)
+    @Composable fun Screen()
 
     /** Fetches fresh data. Returns false if nothing could be fetched. */
     suspend fun refresh(context: Context): Boolean
@@ -58,9 +66,14 @@ data class WidgetKind(
     @DrawableRes val icon: Int,
     /** Opened to choose what the widget shows. Null if the widget has nothing to choose. */
     val configure: Class<out Activity>?,
+    /** How the widget looks until the user customises it. */
+    val defaultStyle: WidgetStyle = WidgetStyle(),
 ) {
     fun component(context: Context) = ComponentName(context, receiver)
     fun placedIds(context: Context): IntArray = AppWidgetManager.getInstance(context).getAppWidgetIds(component(context))
+
+    /** A fresh instance of the widget, for redrawing or previewing it. Receivers are kept by R8 (manifest). */
+    fun glanceWidget(): GlanceAppWidget = receiver.getDeclaredConstructor().newInstance().glanceAppWidget
 }
 
 /** A widget currently on the home screen. */
@@ -75,4 +88,13 @@ object Modules {
         all.flatMap { module -> module.widgets.flatMap { kind -> kind.placedIds(context).map { PlacedWidget(it, module, kind) } } }
 
     fun moduleForReceiver(receiver: Class<*>): WidgetModule? = all.firstOrNull { m -> m.widgets.any { it.receiver == receiver } }
+
+    /** The placed widget with this id, if it is one of ours. */
+    fun placed(context: Context, appWidgetId: Int): PlacedWidget? {
+        val provider = AppWidgetManager.getInstance(context).getAppWidgetInfo(appWidgetId)?.provider ?: return null
+        for (m in all) for (k in m.widgets) if (k.receiver.name == provider.className) return PlacedWidget(appWidgetId, m, k)
+        return null
+    }
+
+    fun kindOf(context: Context, appWidgetId: Int): WidgetKind? = placed(context, appWidgetId)?.kind
 }

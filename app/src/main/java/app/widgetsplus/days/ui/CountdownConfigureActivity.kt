@@ -1,10 +1,5 @@
 package app.widgetsplus.days.ui
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,14 +7,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.widgetsplus.R
-import app.widgetsplus.core.ui.ChoiceCard
+import app.widgetsplus.core.ui.ActionRow
+import app.widgetsplus.core.ui.CheckRow
 import app.widgetsplus.core.ui.ConfigureScaffold
-import app.widgetsplus.core.ui.HelpText
+import app.widgetsplus.core.ui.Footnote
+import app.widgetsplus.core.ui.Grouped
+import app.widgetsplus.core.ui.Hairline
+import app.widgetsplus.core.ui.SectionHeader
 import app.widgetsplus.core.ui.WidgetConfigureActivity
 import app.widgetsplus.days.DaysFormat
 import app.widgetsplus.days.DaysRepository
@@ -41,35 +38,24 @@ class CountdownConfigureActivity : WidgetConfigureActivity() {
         val scope = rememberCoroutineScope()
 
         ConfigureScaffold(stringResource(R.string.days_choose_event)) {
-            if (s.events.isEmpty()) {
-                item {
-                    Text(
-                        stringResource(R.string.days_no_events),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(4.dp),
-                    )
-                }
-            }
-            items(s.sorted(today), key = { it.id }) { event ->
-                ChoiceCard(
-                    selected = event.id == current,
-                    title = event.name,
-                    subtitle = DaysFormat.dateLine(this@CountdownConfigureActivity, event, today),
-                    onClick = { choose(event.id) },
-                ) {
-                    Text(
-                        DaysFormat.countText(this@CountdownConfigureActivity, event.daysUntil(today)),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            item { SectionHeader(stringResource(R.string.days_events_title)) }
             item {
-                FilledTonalButton(onClick = { adding = true }, modifier = Modifier.padding(top = 8.dp)) {
-                    Text(stringResource(R.string.days_add_event))
+                Grouped {
+                    s.sorted(today).forEach { event ->
+                        val count = DaysFormat.countText(this@CountdownConfigureActivity, event.daysUntil(today))
+                        CheckRow(
+                            title = event.name,
+                            selected = event.id == current,
+                            subtitle = "$count · " + DaysFormat.dateLine(this@CountdownConfigureActivity, event, today),
+                            onClick = { choose(event.id) },
+                        )
+                        Hairline()
+                    }
+                    ActionRow(stringResource(R.string.days_add_event), onClick = { adding = true })
                 }
             }
-            item { HelpText(stringResource(R.string.days_choose_event_help)) }
+            if (s.events.isEmpty()) item { Footnote(stringResource(R.string.days_no_events)) }
+            item { Footnote(stringResource(R.string.days_choose_event_help)) }
         }
 
         if (adding) {

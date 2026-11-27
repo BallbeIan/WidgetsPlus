@@ -14,8 +14,8 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
-    <string name="change">Change</string>
+    <string name="edit">Edit</string>
+    <string name="done">Done</string>
     <string name="name">Name</string>
     <string name="move_up">Move up</string>
     <string name="move_down">Move down</string>
@@ -25,10 +25,8 @@
     <string name="nothing_chosen">Nothing chosen yet</string>
 
     <!-- Home -->
-    <string name="categories">Categories</string>
     <string name="on_home_screen">On your home screen</string>
     <string name="no_widgets_yet">No widgets yet. Open a category below and tap Add, or long-press your home screen, tap Widgets and find WidgetsPlus.</string>
-    <string name="widget_title_format">%1$s · %2$s</string>
     <string name="widgets_title">Widgets</string>
     <string name="how_to_add_widget">To add one, long-press your home screen, tap Widgets and find WidgetsPlus.</string>
 
@@ -54,7 +52,6 @@
 
     <string name="new_list">New list</string>
     <string name="rename_list">Rename list</string>
-    <string name="list_options">List options</string>
     <string name="delete_list_title">Delete %1$s?</string>
     <string name="delete_list_text">The list and its symbols are removed. Widgets showing it will switch to your first list.</string>
     <string name="no_lists">You have no lists. Create one to add stocks or coins.</string>
@@ -65,7 +62,6 @@
     <string name="type_stock">Stock</string>
     <string name="type_crypto">Crypto</string>
     <string name="type_stocks">Stocks</string>
-    <string name="symbol">Symbol</string>
     <string name="hint_stock">AAPL</string>
     <string name="hint_crypto">BTC</string>
     <string name="help_stock">Use the symbol as shown on Yahoo Finance: AAPL, ^GSPC (S&amp;P 500), VWCE.DE.</string>

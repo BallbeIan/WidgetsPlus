@@ -1,5 +1,6 @@
 package app.widgetsplus.days.widget
 
+import app.widgetsplus.core.widget.StyledWidget
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,7 +50,7 @@ class CountdownWidget : GlanceAppWidget() {
             // Collected so the widget redraws when events, its choice or the day change.
             val s by repo.state.collectAsState()
             val today = LocalDate.now()
-            GlanceTheme { Content(repo.eventForWidget(appWidgetId, s, today), today) }
+            StyledWidget(appWidgetId) { Content(repo.eventForWidget(appWidgetId, s, today), today) }
         }
     }
 

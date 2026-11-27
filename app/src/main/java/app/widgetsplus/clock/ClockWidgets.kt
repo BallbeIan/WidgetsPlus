@@ -1,6 +1,8 @@
 package app.widgetsplus.clock
 
+import app.widgetsplus.core.widget.StyledWidget
 import android.content.Context
+import android.os.Build
 import android.text.format.DateFormat
 import android.util.TypedValue
 import android.view.View
@@ -26,7 +28,9 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import app.widgetsplus.R
 import app.widgetsplus.core.ModuleWidgetReceiver
+import app.widgetsplus.core.widget.LocalWidgetStyle
 import app.widgetsplus.core.widget.WidgetSurface
+import app.widgetsplus.core.widget.fixedTextColors
 import java.time.ZoneId
 import java.util.Locale
 import kotlin.math.min
@@ -45,7 +49,7 @@ class DigitalClockWidget : GlanceAppWidget() {
         provideContent {
             // Read so the widget redraws when its time zone or label is changed.
             val version by settings.version.collectAsState()
-            GlanceTheme { Content(appWidgetId, version) }
+            StyledWidget(appWidgetId) { Content(appWidgetId, version) }
         }
     }
 
@@ -58,14 +62,30 @@ class DigitalClockWidget : GlanceAppWidget() {
 
         WidgetSurface(GlanceModifier.padding(8.dp), onClick = actionStartActivity(ClockModule.clockAppIntent(context))) {
             AndroidRemoteViews(
-                remoteViews = digitalViews(context, zone, label, size.width.value, size.height.value),
+                remoteViews = digitalViews(context, zone, label, size.width.value, size.height.value, fixedTextColors(LocalWidgetStyle.current)),
                 modifier = GlanceModifier.fillMaxSize(),
             )
         }
     }
 
-    private fun digitalViews(context: Context, zone: ZoneId?, label: String?, widthDp: Float, heightDp: Float): RemoteViews {
+    private fun digitalViews(context: Context, zone: ZoneId?, label: String?, widthDp: Float, heightDp: Float, text: Pair<Int, Int>?): RemoteViews {
         val views = RemoteViews(context.packageName, R.layout.clock_digital)
+        // Always set, also back to the defaults: the launcher may update the existing views in place, which would
+        // otherwise keep a previously chosen colour.
+        if (text != null) {
+            views.setTextColor(R.id.clock_time, text.first)
+            views.setTextColor(R.id.clock_date, text.first)
+            views.setTextColor(R.id.clock_label, text.second)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Resource colours, so dark mode and wallpaper colours keep applying live.
+            views.setColor(R.id.clock_time, "setTextColor", R.color.widget_on_surface)
+            views.setColor(R.id.clock_date, "setTextColor", R.color.widget_accent)
+            views.setColor(R.id.clock_label, "setTextColor", R.color.widget_on_surface_variant)
+        } else {
+            views.setTextColor(R.id.clock_time, context.getColor(R.color.widget_on_surface))
+            views.setTextColor(R.id.clock_date, context.getColor(R.color.widget_accent))
+            views.setTextColor(R.id.clock_label, context.getColor(R.color.widget_on_surface_variant))
+        }
         val showDate = heightDp >= 80
         val showLabel = label != null && heightDp >= 70
         // Largest time that fits: "12:59" is about 2.7 times as wide as the text size, and needs room for the other lines.
@@ -95,12 +115,14 @@ class AnalogClockWidget : GlanceAppWidget() {
     override val sizeMode = SizeMode.Single
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+        val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
         provideContent {
-            val context = LocalContext.current
-            Box(
-                modifier = GlanceModifier.fillMaxSize().padding(4.dp).clickable(actionStartActivity(ClockModule.clockAppIntent(context))),
-            ) {
-                AndroidRemoteViews(RemoteViews(context.packageName, R.layout.clock_analog), GlanceModifier.fillMaxSize())
+            StyledWidget(appWidgetId) {
+                val context = LocalContext.current
+                // Transparent by default (see ClockModule.analog), so the face floats on the wallpaper.
+                WidgetSurface(GlanceModifier.padding(4.dp), onClick = actionStartActivity(ClockModule.clockAppIntent(context))) {
+                    AndroidRemoteViews(RemoteViews(context.packageName, R.layout.clock_analog), GlanceModifier.fillMaxSize())
+                }
             }
         }
     }

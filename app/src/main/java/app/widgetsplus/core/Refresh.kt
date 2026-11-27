@@ -120,6 +120,7 @@ abstract class ModuleWidgetReceiver : GlanceAppWidgetReceiver() {
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         super.onDeleted(context, appWidgetIds)
+        appWidgetIds.forEach { WidgetStyles.forget(context, it) }
         val module = Modules.moduleForReceiver(javaClass) ?: return
         appWidgetIds.forEach { module.forgetWidget(context, it) }
     }

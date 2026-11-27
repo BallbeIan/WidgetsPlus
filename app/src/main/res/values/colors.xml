@@ -7,4 +7,5 @@
     <color name="widget_accent">#FF6750A4</color>
     <color name="clock_face">#FFF3EDF7</color>
     <color name="clock_tick">#FF79747E</color>
+    <color name="app_background">#FFF2F2F7</color>
 </resources>

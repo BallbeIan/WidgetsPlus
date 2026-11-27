@@ -6,7 +6,11 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.runtime.Composable
 import androidx.glance.color.ColorProvider
+import androidx.glance.unit.ColorProvider as GlanceColor
+import app.widgetsplus.core.widget.LocalWidgetStyle
+import app.widgetsplus.core.widget.backgroundIsDark
 import app.widgetsplus.core.widget.Charts
 import app.widgetsplus.finance.FinanceFormat
 import app.widgetsplus.finance.Quote
@@ -21,11 +25,21 @@ val DownNight = Color(0xFFFF6B6B)
 private val UpColor = ColorProvider(day = UpDay, night = UpNight)
 private val DownColor = ColorProvider(day = DownDay, night = DownNight)
 
-fun changeColor(change: Double) = if (change >= 0) UpColor else DownColor
+/** Green or red; on a fixed light or dark background the version that reads on it, else the phone's day/night. */
+@Composable
+fun changeColor(change: Double): GlanceColor {
+    val up = change >= 0
+    return when (backgroundIsDark(LocalWidgetStyle.current)) {
+        true -> androidx.glance.unit.ColorProvider(if (up) UpNight else DownNight)
+        false -> androidx.glance.unit.ColorProvider(if (up) UpDay else DownDay)
+        null -> if (up) UpColor else DownColor
+    }
+}
 
 /** Today's (stocks) or the last 24 hours' (crypto) price chart, green or red, with the reference price dashed. */
-fun priceChart(context: Context, quote: Quote, widthDp: Float, heightDp: Float): Bitmap? {
-    val night = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+fun priceChart(context: Context, quote: Quote, widthDp: Float, heightDp: Float, darkBackground: Boolean? = null): Bitmap? {
+    val night = darkBackground
+        ?: (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES)
     val up = (quote.chart.lastOrNull() ?: quote.price) >= quote.reference
     val color = (if (up) if (night) UpNight else UpDay else if (night) DownNight else DownDay).toArgb()
     return Charts.line(context, quote.chart, color, widthDp, heightDp, baseline = quote.reference)

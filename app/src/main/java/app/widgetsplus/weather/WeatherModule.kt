@@ -8,6 +8,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.widgetsplus.R
+import app.widgetsplus.core.ui.Hue
 import app.widgetsplus.core.WidgetKind
 import app.widgetsplus.core.WidgetModule
 import app.widgetsplus.weather.ui.WeatherConfigureActivity
@@ -19,6 +20,7 @@ object WeatherModule : WidgetModule {
     override val title = R.string.weather_title
     override val description = R.string.weather_description
     override val icon = R.drawable.ic_module_weather
+    override val hue = Hue.BLUE
 
     val weatherWidget = WidgetKind(WeatherWidgetReceiver::class.java, R.string.widget_weather_name, R.string.widget_weather_description, R.drawable.ic_module_weather, WeatherConfigureActivity::class.java)
     override val widgets = listOf(weatherWidget)
@@ -30,7 +32,7 @@ object WeatherModule : WidgetModule {
     }
 
     @Composable
-    override fun Screen(onBack: () -> Unit) = WeatherScreen(onBack)
+    override fun Screen() = WeatherScreen()
 
     override suspend fun refresh(context: Context) = WeatherRepository.get(context).refresh()
 

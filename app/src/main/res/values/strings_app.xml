@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tabs -->
+    <string name="tab_widgets">Widgets</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- Widgets tab -->
+    <string name="home_edit_help">Tap a widget to change what it shows and how it looks.</string>
+    <string name="set_up">Set up</string>
+
+    <!-- Widget editor -->
+    <string name="editor_content">Shows</string>
+    <string name="editor_colour">Colour</string>
+    <string name="editor_background">Background</string>
+    <string name="editor_opacity">Background opacity</string>
+    <string name="editor_text">Text colour</string>
+    <string name="editor_colour_help">\"Phone colours\" follows your wallpaper and dark mode. Lower the opacity to let the wallpaper show through.</string>
+    <string name="editor_shape">Shape</string>
+    <string name="editor_corners">Corner roundness</string>
+    <string name="editor_corners_old_android">Rounded corners need Android 12 or newer. On this phone widgets have square corners.</string>
+    <string name="editor_apply_all">Use this look for all widgets</string>
+    <string name="editor_reset">Reset to the default look</string>
+    <string name="editor_apply_all_help">Changes apply to the widget on your home screen straight away.</string>
+    <string name="editor_preview_loading">Loading preview…</string>
+    <string name="editor_preview_old_android">On Android 11 and older, scrolling lists stay empty in this preview. The widget itself shows them.</string>
+
+    <!-- Style options -->
+    <string name="style_text_auto">Automatic</string>
+    <string name="style_text_light">Light</string>
+    <string name="style_text_dark">Dark</string>
+    <string name="style_bg_system">Phone colours</string>
+    <string name="style_bg_white">White</string>
+    <string name="style_bg_mist">Mist</string>
+    <string name="style_bg_sand">Sand</string>
+    <string name="style_bg_graphite">Graphite</string>
+    <string name="style_bg_black">Black</string>
+    <string name="style_bg_navy">Navy</string>
+    <string name="style_bg_indigo">Indigo</string>
+    <string name="style_bg_forest">Forest</string>
+    <string name="style_bg_wine">Wine</string>
+    <string name="style_bg_plum">Plum</string>
+
+    <!-- Settings -->
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">Same as phone</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_help">For this app. Each widget\'s look is set in its own editor on the Widgets tab.</string>
+    <string name="settings_widgets">Widgets</string>
+    <string name="settings_updates">Updates</string>
+    <string name="settings_updates_help">About every 30 minutes, and just after midnight. Clocks keep time by themselves.</string>
+    <string name="settings_about">About</string>
+    <string name="settings_privacy">Privacy policy</string>
+    <string name="settings_report">Report a problem</string>
+    <string name="settings_source">Source code</string>
+    <string name="settings_licences">Licences</string>
+    <string name="settings_licences_help">The Inter font, under the SIL Open Font License</string>
+    <string name="settings_version">WidgetsPlus %1$s</string>
+</resources>

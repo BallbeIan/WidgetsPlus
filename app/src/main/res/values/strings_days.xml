@@ -44,6 +44,7 @@
     <string name="days_add_event">Add event</string>
     <string name="days_name_hint">Birthday, holiday, …</string>
     <string name="days_repeats_yearly">Repeats every year</string>
+    <string name="days_date">Date</string>
     <string name="days_delete_event">Delete %1$s</string>
     <string name="days_delete_title">Delete %1$s?</string>
     <string name="days_delete_text">Countdown widgets showing it will switch to your next event.</string>

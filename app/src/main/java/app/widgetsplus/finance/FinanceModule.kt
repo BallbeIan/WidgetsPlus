@@ -8,6 +8,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.widgetsplus.R
+import app.widgetsplus.core.ui.Hue
 import app.widgetsplus.core.WidgetKind
 import app.widgetsplus.core.WidgetModule
 import app.widgetsplus.finance.ui.FinanceConfigureActivity
@@ -23,6 +24,7 @@ object FinanceModule : WidgetModule {
     override val title = R.string.finance_title
     override val description = R.string.finance_description
     override val icon = R.drawable.ic_module_finance
+    override val hue = Hue.GREEN
 
     val symbolWidget = WidgetKind(SymbolWidgetReceiver::class.java, R.string.widget_symbol_name, R.string.widget_symbol_description, R.drawable.ic_widget_symbol, FinanceConfigureActivity::class.java)
     val listWidget = WidgetKind(PriceListWidgetReceiver::class.java, R.string.widget_list_name, R.string.widget_list_description, R.drawable.ic_widget_list, FinanceConfigureActivity::class.java)
@@ -37,7 +39,7 @@ object FinanceModule : WidgetModule {
     }
 
     @Composable
-    override fun Screen(onBack: () -> Unit) = FinanceScreen(onBack)
+    override fun Screen() = FinanceScreen()
 
     override suspend fun refresh(context: Context) = FinanceRepository.get(context).refresh()
 

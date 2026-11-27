@@ -6,24 +6,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +38,8 @@ abstract class WidgetConfigureActivity : ComponentActivity() {
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        AppTheme.load(this)
+        enableEdgeToEdge(AppTheme.barStyle(), AppTheme.barStyle())
         super.onCreate(savedInstanceState)
         appWidgetId = intent?.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
             ?: AppWidgetManager.INVALID_APPWIDGET_ID
@@ -60,7 +50,7 @@ abstract class WidgetConfigureActivity : ComponentActivity() {
             return
         }
         receiverClassName = info.provider.className
-        setContent { AppTheme { Content() } }
+        setContent { WidgetsTheme { Content() } }
     }
 
     @Composable
@@ -81,36 +71,22 @@ abstract class WidgetConfigureActivity : ComponentActivity() {
     private fun resultIntent() = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
 }
 
-/** The scrolling page every configure screen uses. */
-@OptIn(ExperimentalMaterial3Api::class)
+/** The page every configure screen uses: large title, then grouped content. */
 @Composable
-fun ConfigureScaffold(title: String, content: LazyListScope.() -> Unit) {
-    Scaffold(topBar = { TopAppBar(title = { Text(title) }) }) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().imePadding(),
-            contentPadding = PaddingValues(
-                start = 16.dp, end = 16.dp,
-                top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding() + 24.dp,
-            ),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            content = content,
-        )
-    }
-}
+fun ConfigureScaffold(title: String, content: LazyListScope.() -> Unit) = Page(title, content = content)
 
-/** A card with a radio button, a title and an optional second line. */
+/**
+ * One option on a configure screen, as its own grouped row with a check mark when it is the current choice.
+ * For several options in one group, use [CheckRow] inside a [Grouped] instead.
+ */
 @Composable
 fun ChoiceCard(selected: Boolean, title: String, subtitle: String?, onClick: () -> Unit, trailing: @Composable () -> Unit = {}) {
-    Card(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(Modifier.padding(end = 16.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(selected = selected, onClick = onClick)
-            Column(Modifier.weight(1f)) {
-                Text(title, style = MaterialTheme.typography.titleMedium)
-                if (subtitle != null) {
-                    Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2)
-                }
+    Grouped(Modifier.padding(top = 8.dp)) {
+        ListRow(title, subtitle = subtitle, onClick = onClick, trailing = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                trailing()
+                if (selected) Icon(Icons.Rounded.Check, null, tint = Accent, modifier = Modifier.padding(start = 8.dp).size(22.dp))
             }
-            trailing()
-        }
+        })
     }
 }

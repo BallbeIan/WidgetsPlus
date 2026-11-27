@@ -1,32 +1,32 @@
 package app.widgetsplus.finance.ui
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.widgetsplus.R
-import app.widgetsplus.core.ui.ChoiceCard
+import app.widgetsplus.core.ui.Accent
+import app.widgetsplus.core.ui.ActionRow
+import app.widgetsplus.core.ui.CheckRow
 import app.widgetsplus.core.ui.ConfigureScaffold
+import app.widgetsplus.core.ui.Footnote
+import app.widgetsplus.core.ui.Grouped
+import app.widgetsplus.core.ui.Hairline
 import app.widgetsplus.core.ui.NameDialog
-import app.widgetsplus.core.ui.SectionTitle
+import app.widgetsplus.core.ui.SectionHeader
 import app.widgetsplus.core.ui.WidgetConfigureActivity
 import app.widgetsplus.finance.AssetType
 import app.widgetsplus.finance.FinanceRepository
@@ -52,32 +52,23 @@ class FinanceConfigureActivity : WidgetConfigureActivity() {
         val scope = rememberCoroutineScope()
 
         ConfigureScaffold(stringResource(R.string.choose_list)) {
-            items(s.lists, key = { it.id }) { list ->
-                ChoiceCard(
-                    selected = list.id == current,
-                    title = list.name,
-                    subtitle = if (list.items.isEmpty()) getString(R.string.empty_list) else list.items.joinToString(", ") { it.label },
-                    onClick = { choose { repo.setListForWidget(appWidgetId, list.id) } },
-                ) {
-                    Text(
-                        pluralStringResource(R.plurals.symbols, list.items.size, list.items.size),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+            item { SectionHeader(stringResource(R.string.finance_lists)) }
+            item {
+                Grouped {
+                    s.lists.forEach { list ->
+                        val count = pluralStringResource(R.plurals.symbols, list.items.size, list.items.size)
+                        CheckRow(
+                            title = list.name,
+                            selected = list.id == current,
+                            subtitle = if (list.items.isEmpty()) getString(R.string.empty_list) else "$count · " + list.items.joinToString(", ") { it.label },
+                            onClick = { choose { repo.setListForWidget(appWidgetId, list.id) } },
+                        )
+                        Hairline()
+                    }
+                    ActionRow(stringResource(R.string.new_list), onClick = { creating = true })
                 }
             }
-            item {
-                FilledTonalButton(onClick = { creating = true }, modifier = Modifier.padding(top = 8.dp)) {
-                    Text(stringResource(R.string.new_list))
-                }
-            }
-            item {
-                Text(
-                    stringResource(R.string.choose_list_help),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            item { Footnote(stringResource(R.string.choose_list_help)) }
         }
         if (creating) {
             NameDialog(stringResource(R.string.new_list), "", stringResource(R.string.create), onDismiss = { creating = false }) { name ->
@@ -97,12 +88,25 @@ class FinanceConfigureActivity : WidgetConfigureActivity() {
 
         ConfigureScaffold(stringResource(R.string.choose_symbol)) {
             s.lists.filter { it.items.isNotEmpty() }.forEach { list ->
-                item(key = "header-${list.id}") { SectionTitle(list.name) }
-                items(list.items, key = { "${list.id}-${it.key}" }) { item ->
-                    Card(Modifier.fillMaxWidth().clickable { choose { repo.setItemForWidget(appWidgetId, item.key) } }) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            RadioButton(selected = item.key == current, onClick = { choose { repo.setItemForWidget(appWidgetId, item.key) } })
-                            ItemSummary(item, s.quotes[item.key], Modifier.weight(1f).padding(end = 16.dp, top = 8.dp, bottom = 8.dp))
+                item(key = "header-${list.id}") { SectionHeader(list.name) }
+                item(key = "items-${list.id}") {
+                    Grouped {
+                        list.items.forEachIndexed { i, item ->
+                            if (i > 0) Hairline()
+                            ItemSummary(
+                                item = item,
+                                quote = s.quotes[item.key],
+                                modifier = Modifier.clickable { choose { repo.setItemForWidget(appWidgetId, item.key) } },
+                                trailing = {
+                                    // Always takes the space, so prices line up whether or not the row is ticked.
+                                    Icon(
+                                        Icons.Rounded.Check,
+                                        contentDescription = null,
+                                        tint = if (item.key == current) Accent else Color.Transparent,
+                                        modifier = Modifier.size(22.dp),
+                                    )
+                                },
+                            )
                         }
                     }
                 }
@@ -118,7 +122,6 @@ class FinanceConfigureActivity : WidgetConfigureActivity() {
                             ?: lists.firstOrNull()?.id
                             ?: repo.addList(getString(if (type == AssetType.STOCK) R.string.type_stocks else R.string.type_crypto))
                     },
-                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     onAdded = { item -> choose { repo.setItemForWidget(appWidgetId, item.key) } },
                 )
             }

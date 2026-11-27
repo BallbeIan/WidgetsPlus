@@ -1,5 +1,6 @@
 package app.widgetsplus.days.widget
 
+import app.widgetsplus.core.widget.StyledWidget
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,6 +13,7 @@ import androidx.glance.GlanceTheme
 import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.LinearProgressIndicator
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionStartActivity
@@ -43,10 +45,11 @@ class ProgressWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val repo = DaysRepository.get(context)
+        val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
         provideContent {
             // Collected only so the widget recomputes when the module redraws its widgets.
             val s by repo.state.collectAsState()
-            GlanceTheme { Content(s.version) }
+            StyledWidget(appWidgetId) { Content(s.version) }
         }
     }
 

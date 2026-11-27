@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.widgetsplus.R
+import app.widgetsplus.core.ui.Hue
 import app.widgetsplus.core.WidgetKind
 import app.widgetsplus.core.WidgetModule
 import app.widgetsplus.days.ui.CountdownConfigureActivity
@@ -24,6 +25,7 @@ object DaysModule : WidgetModule {
     override val title = R.string.days_title
     override val description = R.string.days_description
     override val icon = R.drawable.ic_module_days
+    override val hue = Hue.PINK
 
     val countdownWidget = WidgetKind(CountdownWidgetReceiver::class.java, R.string.days_widget_countdown_name, R.string.days_widget_countdown_description, R.drawable.ic_widget_countdown, CountdownConfigureActivity::class.java)
     val progressWidget = WidgetKind(ProgressWidgetReceiver::class.java, R.string.days_widget_progress_name, R.string.days_widget_progress_description, R.drawable.ic_widget_progress, null)
@@ -37,7 +39,7 @@ object DaysModule : WidgetModule {
     }
 
     @Composable
-    override fun Screen(onBack: () -> Unit) = DaysScreen(onBack)
+    override fun Screen() = DaysScreen()
 
     /** Nothing to fetch: redrawing keeps the day counts and progress bars current. */
     override suspend fun refresh(context: Context): Boolean {

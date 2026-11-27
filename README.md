@@ -14,7 +14,19 @@
 
 ## What it does
 
-WidgetsPlus is a collection of home screen widgets, grouped by category. The app is where you set them up: each category has its own screen, and the home screen shows every WidgetsPlus widget you've placed so you can change what it shows.
+WidgetsPlus is a collection of home screen widgets, grouped by category. The app is where you set them up: the **Widgets** tab lists every WidgetsPlus widget on your home screen and every widget you can add, and categories with something to set up (lists, places, events) have their own tab.
+
+### Make each widget yours
+
+Tap a widget on the Widgets tab to open its editor, with a live preview of the real widget:
+
+- **What it shows:** the list, place, event, symbol or time zone.
+- **Background:** your phone's colours (follows the wallpaper and dark mode), or white, black and a set of tints.
+- **Background opacity:** down to fully transparent, so the wallpaper shows through.
+- **Text colour:** automatic, light or dark.
+- **Corner roundness:** from square to very round (Android 12 and newer).
+
+Changes apply to the widget on your home screen straight away, and one look can be applied to all widgets at once.
 
 ### Clock
 
@@ -47,7 +59,7 @@ Stock and crypto prices, from lists you make yourself.
 More categories are planned.
 
 
-All widgets follow your phone's light or dark mode and, on Android 12 and newer, its wallpaper colours.
+Unless you choose otherwise, widgets follow your phone's light or dark mode and, on Android 12 and newer, its wallpaper colours.
 
 ## Installing
 
@@ -100,6 +112,10 @@ Release builds are signed with the key in `keystore.properties` (copy `keystore.
 ## Privacy
 
 WidgetsPlus has no account and collects nothing. Your settings stay on your phone. Widgets that need online data fetch it directly from the source: for Weather, only the searched place name or the place's coordinates are sent to Open-Meteo; for Finance, only the symbol being looked up is sent to Yahoo Finance or Coinbase. Clock and Days work entirely offline. See the [privacy policy](docs/PRIVACY.md).
+
+## Credits
+
+The interface uses [Inter](https://github.com/rsms/inter), bundled in the app, under the SIL Open Font License ([`docs/licenses/Inter-OFL.txt`](docs/licenses/Inter-OFL.txt)). Weather data by [Open-Meteo](https://open-meteo.com) (CC BY 4.0).
 
 ## Contributing
 

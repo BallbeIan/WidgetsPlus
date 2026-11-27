@@ -53,7 +53,7 @@ fun WidgetSurface(
 ) {
     var m = GlanceModifier.fillMaxSize()
         .appWidgetBackground()
-        .cornerRadius(20.dp)
+        .cornerRadius(LocalWidgetStyle.current.corners.dp)
         .background(GlanceTheme.colors.widgetBackground)
     if (onClick != null) m = m.clickable(onClick)
     Column(modifier = m.then(modifier), content = content)
