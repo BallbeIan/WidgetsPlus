@@ -1,6 +1,5 @@
-package app.widgetsplus.ui
+package app.widgetsplus.finance.ui
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,10 +21,6 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,32 +38,23 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.widgetsplus.R
-import app.widgetsplus.data.AssetType
-import app.widgetsplus.data.Format
-import app.widgetsplus.data.PriceSources
-import app.widgetsplus.data.Quote
-import app.widgetsplus.data.Repository
-import app.widgetsplus.data.UnknownSymbolException
-import app.widgetsplus.data.WatchItem
+import app.widgetsplus.finance.AssetType
+import app.widgetsplus.finance.FinanceFormat
+import app.widgetsplus.finance.FinanceRepository
+import app.widgetsplus.finance.PriceSources
+import app.widgetsplus.finance.Quote
+import app.widgetsplus.finance.UnknownSymbolException
+import app.widgetsplus.finance.WatchItem
+import app.widgetsplus.finance.widget.DownDay
+import app.widgetsplus.finance.widget.DownNight
+import app.widgetsplus.finance.widget.UpDay
+import app.widgetsplus.finance.widget.UpNight
 import kotlinx.coroutines.launch
-
-@Composable
-fun AppTheme(content: @Composable () -> Unit) {
-    val dark = isSystemInDarkTheme()
-    val context = LocalContext.current
-    val scheme = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> if (dark) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        dark -> darkColorScheme()
-        else -> lightColorScheme()
-    }
-    MaterialTheme(colorScheme = scheme, content = content)
-}
 
 @Composable
 fun changeColor(change: Double): Color {
     val dark = isSystemInDarkTheme()
-    return if (change >= 0) if (dark) Color(0xFF4CD07D) else Color(0xFF1B873F)
-    else if (dark) Color(0xFFFF6B6B) else Color(0xFFC62828)
+    return if (change >= 0) if (dark) UpNight else UpDay else if (dark) DownNight else DownDay
 }
 
 /** Symbol and name on the left, price and change on the right, then any [trailing] buttons. */
@@ -86,20 +72,29 @@ fun ItemSummary(item: WatchItem, quote: Quote?, modifier: Modifier = Modifier, t
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-            Text(quote?.let { Format.price(it.price, it.currency) } ?: "—", style = MaterialTheme.typography.bodyLarge)
+            Text(quote?.let { FinanceFormat.price(it.price, it.currency) } ?: "—", style = MaterialTheme.typography.bodyLarge)
             if (quote != null) {
-                Text(Format.percent(quote.changePercent), style = MaterialTheme.typography.bodySmall, color = changeColor(quote.change))
+                Text(FinanceFormat.percent(quote.changePercent), style = MaterialTheme.typography.bodySmall, color = changeColor(quote.change))
             }
         }
         trailing()
     }
 }
 
-/** Type picker, symbol field and Add button. The symbol is checked online before it is added. */
+/**
+ * Type picker, symbol field and Add button. The symbol is checked online before it is added.
+ * [targetList] picks the list to add to, given the chosen type.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddSymbolCard(repo: Repository, modifier: Modifier = Modifier, onAdded: (WatchItem) -> Unit = {}) {
-    var type by remember { mutableStateOf(AssetType.STOCK) }
+fun AddSymbolCard(
+    repo: FinanceRepository,
+    initialType: AssetType,
+    targetList: suspend (AssetType) -> String,
+    modifier: Modifier = Modifier,
+    onAdded: (WatchItem) -> Unit = {},
+) {
+    var type by remember(initialType) { mutableStateOf(initialType) }
     var text by remember { mutableStateOf("") }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -113,10 +108,12 @@ fun AddSymbolCard(repo: Repository, modifier: Modifier = Modifier, onAdded: (Wat
         scope.launch {
             try {
                 val item = PriceSources.lookUp(type, text)
-                if (repo.state.value.items.any { it.key == item.key }) {
-                    error = context.getString(R.string.already_in_list, item.label)
+                val listId = targetList(type)
+                val list = repo.state.value.lists.firstOrNull { it.id == listId }
+                if (list != null && list.items.any { it.key == item.key }) {
+                    error = context.getString(R.string.already_in_list, item.label, list.name)
                 } else {
-                    repo.add(item, runCatching { PriceSources.quote(item) }.getOrNull())
+                    repo.addItem(listId, item, runCatching { PriceSources.quote(item) }.getOrNull())
                     text = ""
                     onAdded(item)
                 }

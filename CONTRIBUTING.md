@@ -13,9 +13,11 @@ See [Building from source](README.md#building-from-source). Run `.\gradlew.bat l
 ## Pull requests
 
 - Keep changes focused, and describe what you tested and on which device.
-- Match the existing style: price fetching in `PriceSources`, stored state in `Repository`, widgets built with Jetpack Glance.
+- The app is split into modules, one per widget category. Shared pieces are in `core/` (the `WidgetModule` interface, background refresh, widget building blocks, app theme). Each category has its own package, like `finance/`, with its data, screens and widgets.
+- A new category implements `WidgetModule`, is added to `Modules.all`, and declares its widget receivers in the manifest. Build widgets from `core/widget` (`WidgetSurface`, `WidgetHeader`, `Charts`) so they match the rest.
+- Widget receiver class names must never change once released: launchers store them, and renaming one removes that widget from users' home screens.
 - No new third-party libraries without a good reason.
-- The app must not send anything except the symbol being looked up, and must not need an account or API key.
+- Nothing may be sent except what a widget needs to fetch its data, and no widget may need an account or API key.
 
 ## Licensing of contributions
 

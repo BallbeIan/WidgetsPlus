@@ -1,41 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- app_name is set per build type in app/build.gradle.kts -->
-    <string name="watchlist">Watchlist</string>
-    <string name="widget_single_name">Single symbol</string>
-    <string name="widget_single_description">One stock or coin with its price, change and today\'s chart</string>
-    <string name="widget_watchlist_description">Your whole list of stocks and coins</string>
-    <string name="widget_empty">Add stocks or coins in WidgetsPlus</string>
 
+    <!-- Shared -->
     <string name="refresh">Refresh</string>
     <string name="updating">Updating…</string>
     <string name="not_updated_yet">Not updated yet</string>
     <string name="updated_at">Updated %1$s</string>
-    <string name="offline_since">Offline, prices from %1$s</string>
-
-    <string name="list_empty">Your list is empty. Add a stock or coin below.</string>
+    <string name="offline_since">Offline, data from %1$s</string>
+    <string name="back">Back</string>
+    <string name="add">Add</string>
+    <string name="create">Create</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="change">Change</string>
+    <string name="name">Name</string>
     <string name="move_up">Move up</string>
     <string name="move_down">Move down</string>
+    <string name="move_left">Move left</string>
+    <string name="move_right">Move right</string>
     <string name="remove">Remove %1$s</string>
+    <string name="nothing_chosen">Nothing chosen yet</string>
+
+    <!-- Home -->
+    <string name="categories">Categories</string>
+    <string name="on_home_screen">On your home screen</string>
+    <string name="no_widgets_yet">No widgets yet. Open a category below and tap Add, or long-press your home screen, tap Widgets and find WidgetsPlus.</string>
+    <string name="widget_title_format">%1$s · %2$s</string>
+    <string name="widgets_title">Widgets</string>
+    <string name="how_to_add_widget">To add one, long-press your home screen, tap Widgets and find WidgetsPlus.</string>
+
+    <!-- Finance -->
+    <string name="finance_title">Finance</string>
+    <string name="finance_description">Stock and crypto prices</string>
+    <plurals name="lists">
+        <item quantity="one">%d list</item>
+        <item quantity="other">%d lists</item>
+    </plurals>
+    <plurals name="symbols">
+        <item quantity="one">%d symbol</item>
+        <item quantity="other">%d symbols</item>
+    </plurals>
+
+    <string name="widget_symbol_name">Single price</string>
+    <string name="widget_symbol_description">One stock or coin with its price, change and chart</string>
+    <string name="widget_list_name">Price list</string>
+    <string name="widget_list_description">One of your lists, for example only stocks or only crypto</string>
+    <string name="finance_widget_empty">Add stocks or coins in WidgetsPlus</string>
+    <string name="finance_list_empty">This list is empty. Add symbols in WidgetsPlus.</string>
+    <string name="finance_widgets_help">Tap a symbol on a widget to open it in Yahoo Finance or Coinbase. Prices update about every 30 minutes, or tap the refresh button.</string>
+
+    <string name="new_list">New list</string>
+    <string name="rename_list">Rename list</string>
+    <string name="list_options">List options</string>
+    <string name="delete_list_title">Delete %1$s?</string>
+    <string name="delete_list_text">The list and its symbols are removed. Widgets showing it will switch to your first list.</string>
+    <string name="no_lists">You have no lists. Create one to add stocks or coins.</string>
+    <string name="finance_list_empty_app">No symbols yet. Add one below.</string>
+    <string name="empty_list">Empty</string>
 
     <string name="add_symbol">Add a stock or coin</string>
     <string name="type_stock">Stock</string>
     <string name="type_crypto">Crypto</string>
+    <string name="type_stocks">Stocks</string>
     <string name="symbol">Symbol</string>
     <string name="hint_stock">AAPL</string>
     <string name="hint_crypto">BTC</string>
-    <string name="add">Add</string>
-    <string name="help_stock">Use the symbol as shown on Yahoo Finance: AAPL, ^GSPC (S&amp;P 500), VWCE.DE, BTC-EUR.</string>
+    <string name="help_stock">Use the symbol as shown on Yahoo Finance: AAPL, ^GSPC (S&amp;P 500), VWCE.DE.</string>
     <string name="help_crypto">A coin on Coinbase: BTC or ETH for US dollars, or a pair like BTC-EUR.</string>
     <string name="not_found_stock">Yahoo Finance doesn\'t know that symbol.</string>
     <string name="not_found_crypto">Coinbase doesn\'t trade that coin or pair.</string>
-    <string name="already_in_list">%1$s is already in your list.</string>
+    <string name="already_in_list">%1$s is already in %2$s.</string>
     <string name="no_connection">Couldn\'t connect. Check your internet connection.</string>
+    <string name="sources_note">Stock prices from Yahoo Finance, crypto prices from Coinbase. Only the symbols in your lists are sent to them. Prices may be delayed and are not investment advice.</string>
 
-    <string name="widgets_title">Widgets</string>
-    <string name="widgets_help">Long-press your home screen, tap Widgets and find WidgetsPlus. Tap a symbol on a widget to open it in Yahoo Finance or Coinbase. Prices update about every 30 minutes.</string>
-    <string name="sources_note">Stock prices from Yahoo Finance, crypto prices from Coinbase. Only the symbols in your list are sent to them. Prices may be delayed and are not investment advice.</string>
-
+    <string name="choose_list">Choose a list</string>
+    <string name="choose_list_help">Lists are managed in the app under Finance. On Android 12 and newer you can also long-press the widget to change it.</string>
     <string name="choose_symbol">Choose a symbol</string>
-    <string name="choose_symbol_help">Your list is shared with the app. On Android 12 and newer, long-press the widget to change its symbol later.</string>
 </resources>

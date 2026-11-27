@@ -1,4 +1,4 @@
-package app.widgetsplus.data
+package app.widgetsplus.finance
 
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -73,7 +73,6 @@ object PriceSources {
 
         suspend fun quote(pair: String): Quote {
             val stats = JSONObject(get("$BASE/${enc(pair)}/stats", pair))
-            val product = JSONObject(get("$BASE/${enc(pair)}", pair))
             val price = stats.getString("last").toDouble()
             // 15-minute candles, newest first: [time, low, high, open, close, volume]. Keep the last 24 hours.
             val since = System.currentTimeMillis() / 1000 - 24 * 3600
@@ -86,7 +85,7 @@ object PriceSources {
             return Quote(
                 price = price,
                 reference = stats.getString("open").toDouble(),
-                currency = product.optString("quote_currency").ifEmpty { null },
+                currency = pair.substringAfter('-', "").ifEmpty { null },
                 chart = chart,
                 fetchedAt = System.currentTimeMillis(),
             )

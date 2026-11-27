@@ -1,15 +1,11 @@
-package app.widgetsplus.data
+package app.widgetsplus.finance
 
-import android.content.Context
 import android.net.Uri
-import android.text.format.DateFormat
-import android.text.format.DateUtils
 import java.text.NumberFormat
 import java.util.Currency
-import java.util.Date
 import kotlin.math.abs
 
-object Format {
+object FinanceFormat {
 
     /** "$1,234.56", "€0.4312", or "5,912.30" for an index. Small prices get more decimals. */
     fun price(value: Double, currency: String?): String {
@@ -41,10 +37,6 @@ object Format {
             maximumFractionDigits = decimals
         }.format(value)
 
-    /** "14:05" today, "Mon 14:05" or a date for older times. */
-    fun time(context: Context, millis: Long): String =
-        if (DateUtils.isToday(millis)) DateFormat.getTimeFormat(context).format(Date(millis))
-        else DateUtils.formatDateTime(context, millis, DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_ABBREV_ALL)
 
     /** The web page for a symbol. Opens in the Yahoo Finance or Coinbase app if installed, otherwise the browser. */
     fun pageFor(item: WatchItem): Uri = when (item.type) {

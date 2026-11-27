@@ -1,13 +1,13 @@
-package app.widgetsplus.data
+package app.widgetsplus.finance
 
 import org.json.JSONArray
 import org.json.JSONObject
 
 enum class AssetType { STOCK, CRYPTO }
 
-/** One entry of the user's watchlist. [code] is a Yahoo ticker (AAPL, ^GSPC) or a Coinbase pair (BTC-USD). */
+/** A stock or coin. [code] is a Yahoo ticker (AAPL, ^GSPC) or a Coinbase pair (BTC-USD). */
 data class WatchItem(val type: AssetType, val code: String, val name: String) {
-    /** Unique key across both sources, used for storage and for widget settings. */
+    /** Unique key across both sources, used for quotes and widget settings. */
     val key: String get() = "${type.name}:$code"
 
     /** Short label for widgets: "BTC" for BTC-USD, the ticker as is for stocks. */
@@ -18,6 +18,26 @@ data class WatchItem(val type: AssetType, val code: String, val name: String) {
 
     companion object {
         fun fromJson(o: JSONObject) = WatchItem(AssetType.valueOf(o.getString("type")), o.getString("code"), o.optString("name"))
+    }
+}
+
+/** A named list of symbols. Each list widget shows one list, so stocks and crypto can be on separate widgets. */
+data class PriceList(val id: String, val name: String, val items: List<WatchItem>) {
+
+    /** The type most items in the list have, used as the default when adding to it. */
+    val mainType: AssetType
+        get() = items.groupingBy { it.type }.eachCount().maxByOrNull { it.value }?.key ?: AssetType.STOCK
+
+    fun toJson(): JSONObject = JSONObject()
+        .put("id", id)
+        .put("name", name)
+        .put("items", JSONArray(items.map { it.toJson() }))
+
+    companion object {
+        fun fromJson(o: JSONObject): PriceList {
+            val a = o.getJSONArray("items")
+            return PriceList(o.getString("id"), o.getString("name"), List(a.length()) { WatchItem.fromJson(a.getJSONObject(it)) })
+        }
     }
 }
 
@@ -57,11 +77,16 @@ data class Quote(
     }
 }
 
-/** Everything the app screen and the widgets show. */
-data class Snapshot(
-    val items: List<WatchItem>,
+/** Everything the finance screen and widgets show. */
+data class FinanceState(
+    val lists: List<PriceList>,
     val quotes: Map<String, Quote>,
     val lastRefresh: Long,
     val lastRefreshFailed: Boolean,
     val refreshing: Boolean,
-)
+    /** Goes up whenever a widget's choice changes, so widgets showing this state redraw. */
+    val widgetSettingsVersion: Int = 0,
+) {
+    /** Every symbol across all lists, once each, in list order. */
+    val allItems: List<WatchItem> get() = lists.flatMap { it.items }.distinctBy { it.key }
+}

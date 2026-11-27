@@ -2,15 +2,15 @@
 
 *Effective 27 November 2026*
 
-WidgetsPlus shows stock and cryptocurrency prices in home screen widgets on Android. This page explains what the app does with your information. The short version: **it collects nothing about you. It only asks Yahoo Finance and Coinbase for the prices of the symbols in your list.**
+WidgetsPlus is a collection of home screen widgets for Android. Its first category, Finance, shows stock and cryptocurrency prices. This page explains what the app does with your information. The short version: **it collects nothing about you. Finance widgets only ask Yahoo Finance and Coinbase for the prices of the symbols in your lists.**
 
 ## What WidgetsPlus stores
 
-Your list of symbols, the last prices fetched and which symbol each widget shows are stored **only on your phone**, in the app's private storage. The developer cannot see them. There is no WidgetsPlus server.
+Your settings (such as your lists of symbols), the last data fetched and what each widget shows are stored **only on your phone**, in the app's private storage. The developer cannot see them. There is no WidgetsPlus server.
 
 ## What is sent over the internet
 
-To show prices, WidgetsPlus connects directly from your phone to:
+To show prices, the Finance widgets connect directly from your phone to:
 
 - **Yahoo Finance** (`query1.finance.yahoo.com`) for stocks, funds and indices.
 - **Coinbase** (`api.exchange.coinbase.com` and `api.coinbase.com`) for cryptocurrencies.
@@ -19,6 +19,8 @@ Each request contains only the symbol being looked up (for example `AAPL` or `BT
 
 - Yahoo: <https://legal.yahoo.com/us/en/yahoo/privacy/index.html>
 - Coinbase: <https://www.coinbase.com/legal/privacy>
+
+If future widget categories need other online sources, they will be listed here before they are released.
 
 WidgetsPlus has no accounts, no sign-in, no advertising, no analytics, no crash reporting and no third-party tracking.
 
@@ -30,7 +32,7 @@ Tapping a symbol on a widget opens its page on Yahoo Finance or Coinbase, in the
 
 | Permission | Why | Required? |
 |---|---|---|
-| Internet | To fetch prices from Yahoo Finance and Coinbase. | Yes |
+| Internet | To fetch data for widgets that need it (Finance: Yahoo Finance and Coinbase). | Yes |
 | Run at startup, keep awake, foreground service, network state | Declared by the Android WorkManager library so the widgets keep updating in the background and after a restart. | Automatic |
 
 ## Backups
