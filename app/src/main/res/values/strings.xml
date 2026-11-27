@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app_name is set per build type in app/build.gradle.kts -->
+    <string name="watchlist">Watchlist</string>
+    <string name="widget_single_name">Single symbol</string>
+    <string name="widget_single_description">One stock or coin with its price, change and today\'s chart</string>
+    <string name="widget_watchlist_description">Your whole list of stocks and coins</string>
+    <string name="widget_empty">Add stocks or coins in WidgetsPlus</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="updating">Updating…</string>
+    <string name="not_updated_yet">Not updated yet</string>
+    <string name="updated_at">Updated %1$s</string>
+    <string name="offline_since">Offline, prices from %1$s</string>
+
+    <string name="list_empty">Your list is empty. Add a stock or coin below.</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="remove">Remove %1$s</string>
+
+    <string name="add_symbol">Add a stock or coin</string>
+    <string name="type_stock">Stock</string>
+    <string name="type_crypto">Crypto</string>
+    <string name="symbol">Symbol</string>
+    <string name="hint_stock">AAPL</string>
+    <string name="hint_crypto">BTC</string>
+    <string name="add">Add</string>
+    <string name="help_stock">Use the symbol as shown on Yahoo Finance: AAPL, ^GSPC (S&amp;P 500), VWCE.DE, BTC-EUR.</string>
+    <string name="help_crypto">A coin on Coinbase: BTC or ETH for US dollars, or a pair like BTC-EUR.</string>
+    <string name="not_found_stock">Yahoo Finance doesn\'t know that symbol.</string>
+    <string name="not_found_crypto">Coinbase doesn\'t trade that coin or pair.</string>
+    <string name="already_in_list">%1$s is already in your list.</string>
+    <string name="no_connection">Couldn\'t connect. Check your internet connection.</string>
+
+    <string name="widgets_title">Widgets</string>
+    <string name="widgets_help">Long-press your home screen, tap Widgets and find WidgetsPlus. Tap a symbol on a widget to open it in Yahoo Finance or Coinbase. Prices update about every 30 minutes.</string>
+    <string name="sources_note">Stock prices from Yahoo Finance, crypto prices from Coinbase. Only the symbols in your list are sent to them. Prices may be delayed and are not investment advice.</string>
+
+    <string name="choose_symbol">Choose a symbol</string>
+    <string name="choose_symbol_help">Your list is shared with the app. On Android 12 and newer, long-press the widget to change its symbol later.</string>
+</resources>

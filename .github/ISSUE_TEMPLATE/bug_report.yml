@@ -1,0 +1,26 @@
+name: Bug or device report
+description: Something does not work, or you tried WidgetsPlus on a new phone or launcher
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Widgets look different on every launcher, so reports from other phones are very valuable, **even if everything works**.
+  - type: input
+    id: device
+    attributes:
+      label: Phone model, Android version and launcher
+      placeholder: "Google Pixel 8, Android 15, Pixel Launcher"
+    validations:
+      required: true
+  - type: input
+    id: symbols
+    attributes:
+      label: Symbols involved (if any)
+      placeholder: "AAPL, BTC-EUR"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include steps to reproduce, what you expected, and what you saw instead. A screenshot of the widget helps.
+    validations:
+      required: true
