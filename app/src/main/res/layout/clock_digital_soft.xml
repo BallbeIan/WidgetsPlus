@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Digital clock in the Soft design: like clock_digital, in Nunito. Colours are set in code from the Soft palette. -->
+<!-- fontVariationSettings needs Android 9; older versions show Nunito at its default weight. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:ignore="UnusedAttribute">
+
+    <TextView
+        android:id="@+id/clock_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:fontVariationSettings="'wght' 700"
+        android:maxLines="1"
+        android:textColor="#8592A3"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <TextClock
+        android:id="@+id/clock_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:fontVariationSettings="'wght' 800"
+        android:format12Hour="h:mm"
+        android:format24Hour="HH:mm"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.02"
+        android:maxLines="1"
+        android:textColor="#3B4656"
+        android:textSize="48sp" />
+
+    <TextClock
+        android:id="@+id/clock_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:fontVariationSettings="'wght' 700"
+        android:maxLines="1"
+        android:textColor="#8592A3"
+        android:textSize="14sp" />
+</LinearLayout>

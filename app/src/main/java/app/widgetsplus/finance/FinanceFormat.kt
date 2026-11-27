@@ -31,6 +31,32 @@ object FinanceFormat {
         return sign + number(abs(value), 2) + "%"
     }
 
+    /** A plain number with the same decimals [price] would use: "1,234.56", "0.4312". */
+    fun plain(value: Double): String = number(value, decimalsFor(value))
+
+    /** "+1,116.04" or "−0.42", for the change in money. */
+    fun signed(value: Double): String = (if (value >= 0) "+" else "\u2212") + number(abs(value), decimalsFor(value))
+
+    /** Short volume: "546.9", "12.4K", "53.1M", "2.3B". */
+    fun compact(value: Double): String {
+        val a = abs(value)
+        return when {
+            a >= 1e9 -> number(value / 1e9, 1) + "B"
+            a >= 1e6 -> number(value / 1e6, 1) + "M"
+            a >= 1e4 -> number(value / 1e3, 1) + "K"
+            else -> number(value, 1)
+        }
+    }
+
+    /** "345.44 – 352.60". */
+    fun range(low: Double, high: Double): String = plain(low) + " \u2013 " + plain(high)
+
+    private fun decimalsFor(value: Double) = when {
+        abs(value) >= 1.0 || value == 0.0 -> 2
+        abs(value) >= 0.01 -> 4
+        else -> 8
+    }
+
     private fun number(value: Double, decimals: Int): String =
         NumberFormat.getNumberInstance().apply {
             minimumFractionDigits = decimals

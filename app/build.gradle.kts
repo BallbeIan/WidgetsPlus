@@ -21,8 +21,8 @@ android {
         applicationId = "app.widgetsplus"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "0.4-beta"
+        versionCode = 5
+        versionName = "1.0"
     }
 
     signingConfigs {

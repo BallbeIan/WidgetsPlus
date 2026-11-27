@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp" android:height="200dp" android:viewportWidth="200" android:viewportHeight="200">
+    <!-- Soft teal, with the centre dot on top (a base-coloured pin in a teal ring). -->
+    <path android:fillColor="#2FB59A"
+        android:pathData="M97,112V26a3,3 0 0,1 6,0V112a3,3 0 0,1 -6,0z" />
+    <path android:fillColor="#2FB59A" android:pathData="M100,93a7,7 0 1,0 0.01,0z" />
+    <path android:fillColor="#E3E8EF" android:pathData="M100,97.5a2.5,2.5 0 1,0 0.01,0z" />
+</vector>

@@ -13,6 +13,10 @@ import app.widgetsplus.core.WidgetKind
 import app.widgetsplus.core.WidgetModule
 import app.widgetsplus.finance.ui.FinanceConfigureActivity
 import app.widgetsplus.finance.ui.FinanceScreen
+import app.widgetsplus.finance.widget.ChartWidget
+import app.widgetsplus.finance.widget.ChartWidgetReceiver
+import app.widgetsplus.finance.widget.MiniListWidget
+import app.widgetsplus.finance.widget.MiniListWidgetReceiver
 import app.widgetsplus.finance.widget.PriceListWidget
 import app.widgetsplus.finance.widget.PriceListWidgetReceiver
 import app.widgetsplus.finance.widget.SymbolWidget
@@ -28,7 +32,9 @@ object FinanceModule : WidgetModule {
 
     val symbolWidget = WidgetKind(SymbolWidgetReceiver::class.java, R.string.widget_symbol_name, R.string.widget_symbol_description, R.drawable.ic_widget_symbol, FinanceConfigureActivity::class.java)
     val listWidget = WidgetKind(PriceListWidgetReceiver::class.java, R.string.widget_list_name, R.string.widget_list_description, R.drawable.ic_widget_list, FinanceConfigureActivity::class.java)
-    override val widgets = listOf(symbolWidget, listWidget)
+    val chartWidget = WidgetKind(ChartWidgetReceiver::class.java, R.string.widget_chart_name, R.string.widget_chart_description, R.drawable.ic_widget_chart, FinanceConfigureActivity::class.java)
+    val miniListWidget = WidgetKind(MiniListWidgetReceiver::class.java, R.string.widget_minilist_name, R.string.widget_minilist_description, R.drawable.ic_widget_minilist, FinanceConfigureActivity::class.java)
+    override val widgets = listOf(chartWidget, symbolWidget, miniListWidget, listWidget)
 
     @Composable
     override fun summary(): String {
@@ -46,12 +52,14 @@ object FinanceModule : WidgetModule {
     override suspend fun updateWidgets(context: Context) {
         SymbolWidget().updateAll(context)
         PriceListWidget().updateAll(context)
+        ChartWidget().updateAll(context)
+        MiniListWidget().updateAll(context)
     }
 
     override fun describeWidget(context: Context, appWidgetId: Int, kind: WidgetKind): String {
         val repo = FinanceRepository.get(context)
         return when (kind) {
-            symbolWidget -> repo.itemForWidget(appWidgetId)?.let { "${it.label} · ${it.name}" }
+            symbolWidget, chartWidget -> repo.itemForWidget(appWidgetId)?.let { "${it.label} · ${it.name}" }
             else -> repo.listForWidget(appWidgetId)?.name
         } ?: context.getString(R.string.nothing_chosen)
     }

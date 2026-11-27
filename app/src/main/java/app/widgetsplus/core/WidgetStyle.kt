@@ -11,6 +11,8 @@ import org.json.JSONObject
  * text colour. Stored per widget; widgets that were never customised use their kind's default.
  */
 data class WidgetStyle(
+    /** The overall look. Soft is the default; Classic is the plain look from before 1.0. */
+    val design: Design = Design.SOFT,
     /** A key from [WidgetBackgrounds]. [WidgetBackgrounds.SYSTEM] follows the phone's colours and dark mode. */
     val background: String = WidgetBackgrounds.SYSTEM,
     /** 0 (fully transparent) to 100. */
@@ -20,16 +22,17 @@ data class WidgetStyle(
     val text: TextTone = TextTone.AUTO,
 ) {
     fun toJson(): String = JSONObject()
-        .put("bg", background).put("opacity", opacity).put("corners", corners).put("text", text.name)
+        .put("design", design.name).put("bg", background).put("opacity", opacity).put("corners", corners).put("text", text.name)
         .toString()
 
     companion object {
-        const val DEFAULT_CORNERS = 22
+        const val DEFAULT_CORNERS = 28
         const val MAX_CORNERS = 40
 
         fun fromJson(json: String): WidgetStyle? = runCatching {
             val o = JSONObject(json)
             WidgetStyle(
+                design = runCatching { Design.valueOf(o.optString("design")) }.getOrDefault(Design.SOFT),
                 background = o.optString("bg", WidgetBackgrounds.SYSTEM).takeIf { WidgetBackgrounds.byKey(it) != null } ?: WidgetBackgrounds.SYSTEM,
                 opacity = o.optInt("opacity", 100).coerceIn(0, 100),
                 corners = o.optInt("corners", DEFAULT_CORNERS).coerceIn(0, MAX_CORNERS),
@@ -37,6 +40,14 @@ data class WidgetStyle(
             )
         }.getOrNull()
     }
+}
+
+/** The widget designs. Each one draws every widget type in its own way; the other style options apply to all. */
+enum class Design(@StringRes val label: Int, @StringRes val description: Int) {
+    /** Soft, tactile panels pressed out of a pale material: raised panels, sunken wells, a rounded typeface. */
+    SOFT(R.string.design_soft, R.string.design_soft_description),
+    /** Flat cards in the phone's own colours. */
+    CLASSIC(R.string.design_classic, R.string.design_classic_description),
 }
 
 enum class TextTone(@StringRes val label: Int) {

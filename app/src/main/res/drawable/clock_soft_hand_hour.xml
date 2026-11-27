@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp" android:height="200dp" android:viewportWidth="200" android:viewportHeight="200">
+    <!-- Soft ink. Points to 12; AnalogClock rotates it around the centre. -->
+    <path android:fillColor="#3B4656"
+        android:pathData="M95,108V58a5,5 0 0,1 10,0V108a5,5 0 0,1 -10,0z" />
+</vector>

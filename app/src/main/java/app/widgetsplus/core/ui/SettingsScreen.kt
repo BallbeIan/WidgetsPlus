@@ -82,7 +82,7 @@ fun SettingsScreen() {
                 ListRow(
                     stringResource(R.string.settings_licences),
                     subtitle = stringResource(R.string.settings_licences_help),
-                    onClick = { open("$REPO/blob/main/docs/licenses/Inter-OFL.txt") },
+                    onClick = { open("$REPO/tree/main/docs/licenses") },
                     leading = { Squircle(Icons.Rounded.Description, Hue.ORANGE.color) },
                     trailing = { Chevron() },
                 )

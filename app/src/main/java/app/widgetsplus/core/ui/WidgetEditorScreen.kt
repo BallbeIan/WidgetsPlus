@@ -44,6 +44,7 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.compose
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import app.widgetsplus.R
+import app.widgetsplus.core.Design
 import app.widgetsplus.core.Modules
 import app.widgetsplus.core.PlacedWidget
 import app.widgetsplus.core.TextTone
@@ -109,6 +110,21 @@ fun WidgetEditorScreen(appWidgetId: Int, onBack: () -> Unit) {
                     leading = { Squircle(placed.kind.icon, placed.module.hue.color) },
                     trailing = if (configure != null) ({ Chevron() }) else null,
                 )
+            }
+        }
+
+        item { SectionHeader(stringResource(R.string.editor_design)) }
+        item {
+            Grouped {
+                Design.entries.forEachIndexed { i, d ->
+                    if (i > 0) Hairline()
+                    CheckRow(
+                        title = stringResource(d.label),
+                        subtitle = stringResource(d.description),
+                        selected = style.design == d,
+                        onClick = { apply(style.copy(design = d)) },
+                    )
+                }
             }
         }
 

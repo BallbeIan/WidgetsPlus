@@ -26,7 +26,9 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import app.widgetsplus.R
+import app.widgetsplus.core.Design
 import app.widgetsplus.core.ModuleWidgetReceiver
+import app.widgetsplus.core.widget.LocalWidgetStyle
 import app.widgetsplus.core.widget.EmptyMessage
 import app.widgetsplus.core.widget.WidgetSurface
 import app.widgetsplus.core.widget.openAppIntent
@@ -59,6 +61,10 @@ class CountdownWidget : GlanceAppWidget() {
         val context = LocalContext.current
         val size = LocalSize.current
         val openApp = actionStartActivity(openAppIntent(context, DaysModule.id))
+        if (LocalWidgetStyle.current.design == Design.SOFT) {
+            SoftCountdown(event, today, openApp)
+            return
+        }
 
         WidgetSurface(GlanceModifier.padding(horizontal = 10.dp, vertical = 8.dp), onClick = openApp) {
             Column(

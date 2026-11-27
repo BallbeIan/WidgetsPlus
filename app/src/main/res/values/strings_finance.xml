@@ -4,4 +4,17 @@
     <string name="finance_lists">Lists</string>
     <string name="finance_type">Type</string>
     <string name="finance_symbol_placeholder">Symbol, for example %1$s</string>
+    <string name="widget_chart_name">Price and chart</string>
+    <string name="widget_chart_description">One stock or coin with a big chart, high, low and volume</string>
+    <string name="widget_minilist_name">Small watchlist</string>
+    <string name="widget_minilist_description">The change of a few symbols from one of your lists</string>
+    <string name="finance_tap_to_choose">Tap to choose a stock or coin</string>
+    <string name="finance_offline_short">Offline, %1$s</string>
+    <string name="finance_symbol_period">%1$s, %2$s</string>
+    <string name="finance_period_24h">24h</string>
+    <string name="finance_period_today">today</string>
+    <string name="finance_high">High %1$s</string>
+    <string name="finance_low">Low %1$s</string>
+    <string name="finance_volume">Vol %1$s</string>
+    <string name="finance_day_range">Day %1$s</string>
 </resources>

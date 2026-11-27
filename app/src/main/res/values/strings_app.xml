@@ -14,7 +14,7 @@
     <string name="editor_background">Background</string>
     <string name="editor_opacity">Background opacity</string>
     <string name="editor_text">Text colour</string>
-    <string name="editor_colour_help">\"Phone colours\" follows your wallpaper and dark mode. Lower the opacity to let the wallpaper show through.</string>
+    <string name="editor_colour_help">\"Default\" is the soft blue-grey in the Soft design, and your phone\'s colours (following the wallpaper and dark mode) in Classic. Lower the opacity to let the wallpaper show through.</string>
     <string name="editor_shape">Shape</string>
     <string name="editor_corners">Corner roundness</string>
     <string name="editor_corners_old_android">Rounded corners need Android 12 or newer. On this phone widgets have square corners.</string>
@@ -24,11 +24,18 @@
     <string name="editor_preview_loading">Loading preview…</string>
     <string name="editor_preview_old_android">On Android 11 and older, scrolling lists stay empty in this preview. The widget itself shows them.</string>
 
+    <!-- Designs -->
+    <string name="editor_design">Design</string>
+    <string name="design_soft">Soft</string>
+    <string name="design_soft_description">Soft, tactile panels with gentle shadows and a rounded font</string>
+    <string name="design_classic">Classic</string>
+    <string name="design_classic_description">Flat cards in your phone\'s colours</string>
+
     <!-- Style options -->
     <string name="style_text_auto">Automatic</string>
     <string name="style_text_light">Light</string>
     <string name="style_text_dark">Dark</string>
-    <string name="style_bg_system">Phone colours</string>
+    <string name="style_bg_system">Default</string>
     <string name="style_bg_white">White</string>
     <string name="style_bg_mist">Mist</string>
     <string name="style_bg_sand">Sand</string>
@@ -55,6 +62,6 @@
     <string name="settings_report">Report a problem</string>
     <string name="settings_source">Source code</string>
     <string name="settings_licences">Licences</string>
-    <string name="settings_licences_help">The Inter font, under the SIL Open Font License</string>
+    <string name="settings_licences_help">The Inter and Nunito fonts, under the SIL Open Font License</string>
     <string name="settings_version">WidgetsPlus %1$s</string>
 </resources>

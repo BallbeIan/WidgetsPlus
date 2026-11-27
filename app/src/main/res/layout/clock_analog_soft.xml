@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Analog clock hands for the Soft design. The raised dial is a bitmap behind this view; the dial drawable here is
+     transparent and only sets the 200dp geometry, so the hands scale exactly like clock_analog's. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <AnalogClock
+        android:id="@+id/clock_analog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:dial="@drawable/clock_soft_dial"
+        android:hand_hour="@drawable/clock_soft_hand_hour"
+        android:hand_minute="@drawable/clock_soft_hand_minute" />
+</FrameLayout>

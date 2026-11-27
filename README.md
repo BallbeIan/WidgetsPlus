@@ -2,7 +2,7 @@
 
 # WidgetsPlus
 
-**Clean, simple home screen widgets for Android.** No account, no API key, no tracking.
+**Soft, beautiful home screen widgets for Android.** Weather, clocks, countdowns and stocks. No account, no ads, no tracking.
 
 ![License: PolyForm Noncommercial](https://img.shields.io/badge/license-PolyForm%20Noncommercial-blue)
 
@@ -10,7 +10,7 @@
 
 ---
 
-**Early version.** Downloads will appear on the [Releases](https://github.com/BallbeIan/WidgetsPlus/releases) page. A Google Play release is planned.
+**[Download the latest version](https://github.com/BallbeIan/WidgetsPlus/releases/latest)** and follow [Installing](#installing). A Google Play release is planned.
 
 ## What it does
 
@@ -20,8 +20,9 @@ WidgetsPlus is a collection of home screen widgets, grouped by category. The app
 
 Tap a widget on the Widgets tab to open its editor, with a live preview of the real widget:
 
+- **Design:** **Soft** (the default: tactile panels pressed out of a pale material, with gentle shadows and the rounded Nunito font) or **Classic** (flat cards in your phone's colours).
 - **What it shows:** the list, place, event, symbol or time zone.
-- **Background:** your phone's colours (follows the wallpaper and dark mode), or white, black and a set of tints.
+- **Background:** the design's default (Soft's blue-grey, or your phone's colours in Classic), or white, black and a set of tints.
 - **Background opacity:** down to fully transparent, so the wallpaper shows through.
 - **Text colour:** automatic, light or dark.
 - **Corner roundness:** from square to very round (Android 12 and newer).
@@ -50,8 +51,10 @@ Changes apply to the widget on your home screen straight away, and one look can 
 Stock and crypto prices, from lists you make yourself.
 
 - **Lists:** start with *Stocks* and *Crypto*, rename them, or make your own (for example *Tech* or *ETFs*).
-- **Price list widget:** shows one list, so stocks and crypto can sit on separate widgets. Scrolls, and shows small charts when the widget is wide enough.
-- **Single price widget:** one stock or coin with its price, the change today (stocks) or over 24 hours (crypto), and a chart. Resize it to show more or less.
+- **Price + chart:** one stock or coin with its price, the change, a chart, and the day's high, low and volume.
+- **Price:** one stock or coin with its price, the change today (stocks) or over 24 hours (crypto), and a chart.
+- **Watchlist:** one of your lists, so stocks and crypto can sit on separate widgets.
+- **Small watchlist:** a compact 2×2 list of symbols and their changes.
 - **Stocks, funds and indices** use the symbols shown on Yahoo Finance: `AAPL`, `^GSPC` (S&P 500), `VWCE.DE`.
 - **Crypto** uses the pairs traded on Coinbase: `BTC` (in US dollars) or `ETH-EUR`.
 - Prices update about every 30 minutes in the background, or tap the refresh button. Tap a symbol to open it in Yahoo Finance or Coinbase.
@@ -115,7 +118,7 @@ WidgetsPlus has no account and collects nothing. Your settings stay on your phon
 
 ## Credits
 
-The interface uses [Inter](https://github.com/rsms/inter), bundled in the app, under the SIL Open Font License ([`docs/licenses/Inter-OFL.txt`](docs/licenses/Inter-OFL.txt)). Weather data by [Open-Meteo](https://open-meteo.com) (CC BY 4.0).
+The app uses [Inter](https://github.com/rsms/inter) and the Soft widgets use [Nunito](https://github.com/googlefonts/nunito), both bundled in the app under the SIL Open Font License ([`docs/licenses/Inter-OFL.txt`](docs/licenses/Inter-OFL.txt), [`docs/licenses/Nunito-OFL.txt`](docs/licenses/Nunito-OFL.txt)). Weather data by [Open-Meteo](https://open-meteo.com) (CC BY 4.0).
 
 ## Contributing
 

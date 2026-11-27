@@ -77,6 +77,30 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/finance_list_widget_info" />
         </receiver>
+
+        <receiver
+            android:name=".finance.widget.ChartWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_chart_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/finance_chart_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".finance.widget.MiniListWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_minilist_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/finance_minilist_widget_info" />
+        </receiver>
         <!-- Clock -->
         <activity
             android:name=".clock.ClockConfigureActivity"

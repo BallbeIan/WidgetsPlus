@@ -48,6 +48,9 @@ object PriceSources {
                 currency = if (isIndex) null else meta.optString("currency").ifEmpty { null },
                 chart = closes.doubles(),
                 fetchedAt = System.currentTimeMillis(),
+                high = meta.optDouble("regularMarketDayHigh").takeIf { !it.isNaN() },
+                low = meta.optDouble("regularMarketDayLow").takeIf { !it.isNaN() },
+                volume = meta.optDouble("regularMarketVolume").takeIf { !it.isNaN() },
             )
         }
 
@@ -88,6 +91,9 @@ object PriceSources {
                 currency = pair.substringAfter('-', "").ifEmpty { null },
                 chart = chart,
                 fetchedAt = System.currentTimeMillis(),
+                high = stats.optString("high").toDoubleOrNull(),
+                low = stats.optString("low").toDoubleOrNull(),
+                volume = stats.optString("volume").toDoubleOrNull(),
             )
         }
 

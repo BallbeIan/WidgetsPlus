@@ -35,7 +35,9 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import app.widgetsplus.R
+import app.widgetsplus.core.Design
 import app.widgetsplus.core.ModuleWidgetReceiver
+import app.widgetsplus.core.widget.LocalWidgetStyle
 import app.widgetsplus.core.widget.EmptyMessage
 import app.widgetsplus.core.widget.RefreshAction
 import app.widgetsplus.core.widget.WidgetHeader
@@ -67,6 +69,10 @@ class WeatherWidget : GlanceAppWidget() {
         // Drop hours and days that have passed, in case the forecast is old (for example after time offline).
         val forecast = place?.let { s.forecasts[it.id] }?.withoutPast()
         val openApp = actionStartActivity(openAppIntent(context, WeatherModule.id))
+        if (LocalWidgetStyle.current.design == Design.SOFT) {
+            SoftWeather(s, place, forecast, openApp)
+            return
+        }
         val compact = size.height < 110.dp
 
         WidgetSurface(GlanceModifier.padding(horizontal = 14.dp, vertical = 10.dp), onClick = openApp) {

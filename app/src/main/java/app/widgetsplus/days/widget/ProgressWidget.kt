@@ -30,7 +30,9 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import app.widgetsplus.core.Design
 import app.widgetsplus.core.ModuleWidgetReceiver
+import app.widgetsplus.core.widget.LocalWidgetStyle
 import app.widgetsplus.core.widget.WidgetSurface
 import app.widgetsplus.core.widget.openAppIntent
 import app.widgetsplus.days.DaysModule
@@ -56,6 +58,10 @@ class ProgressWidget : GlanceAppWidget() {
     @Composable
     private fun Content(@Suppress("UNUSED_PARAMETER") version: Int) {
         val context = LocalContext.current
+        if (LocalWidgetStyle.current.design == Design.SOFT) {
+            SoftProgressContent(actionStartActivity(openAppIntent(context, DaysModule.id)))
+            return
+        }
         val h = LocalSize.current.height.value
         val now = ZonedDateTime.now()
         // Each row is about 26dp (label and bar) plus a gap; the widget has 20dp of padding.

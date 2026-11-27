@@ -52,6 +52,10 @@ data class Quote(
     val currency: String?,
     val chart: List<Double>,
     val fetchedAt: Long,
+    /** Today's (stocks) or the last 24 hours' (crypto) high and low, and volume. Null if the source didn't say. */
+    val high: Double? = null,
+    val low: Double? = null,
+    val volume: Double? = null,
 ) {
     val change: Double get() = price - reference
     val changePercent: Double get() = if (reference == 0.0) 0.0 else (price - reference) / reference * 100
@@ -62,8 +66,13 @@ data class Quote(
         .put("currency", currency ?: JSONObject.NULL)
         .put("chart", JSONArray(chart))
         .put("fetchedAt", fetchedAt)
+        .put("high", high ?: JSONObject.NULL)
+        .put("low", low ?: JSONObject.NULL)
+        .put("volume", volume ?: JSONObject.NULL)
 
     companion object {
+        private fun JSONObject.doubleOrNull(key: String) = if (has(key) && !isNull(key)) optDouble(key).takeIf { !it.isNaN() } else null
+
         fun fromJson(o: JSONObject): Quote {
             val chart = o.getJSONArray("chart")
             return Quote(
@@ -72,6 +81,9 @@ data class Quote(
                 currency = if (o.isNull("currency")) null else o.getString("currency"),
                 chart = List(chart.length()) { chart.getDouble(it) },
                 fetchedAt = o.getLong("fetchedAt"),
+                high = o.doubleOrNull("high"),
+                low = o.doubleOrNull("low"),
+                volume = o.doubleOrNull("volume"),
             )
         }
     }

@@ -30,15 +30,20 @@ import app.widgetsplus.core.ui.SectionHeader
 import app.widgetsplus.core.ui.WidgetConfigureActivity
 import app.widgetsplus.finance.AssetType
 import app.widgetsplus.finance.FinanceRepository
+import androidx.glance.appwidget.GlanceAppWidget
+import app.widgetsplus.finance.widget.ChartWidget
+import app.widgetsplus.finance.widget.ChartWidgetReceiver
+import app.widgetsplus.finance.widget.MiniListWidget
+import app.widgetsplus.finance.widget.MiniListWidgetReceiver
 import app.widgetsplus.finance.widget.PriceListWidget
 import app.widgetsplus.finance.widget.PriceListWidgetReceiver
 import app.widgetsplus.finance.widget.SymbolWidget
 import kotlinx.coroutines.launch
 
-/** Chooses what a finance widget shows: a list for the list widget, a symbol for the single price widget. */
+/** Chooses what a finance widget shows: a list for the list widgets, a symbol for the price and chart widgets. */
 class FinanceConfigureActivity : WidgetConfigureActivity() {
 
-    private val isList get() = receiverClassName == PriceListWidgetReceiver::class.java.name
+    private val isList get() = receiverClassName == PriceListWidgetReceiver::class.java.name || receiverClassName == MiniListWidgetReceiver::class.java.name
     private val repo by lazy { FinanceRepository.get(this) }
 
     @Composable
@@ -128,5 +133,13 @@ class FinanceConfigureActivity : WidgetConfigureActivity() {
         }
     }
 
-    private fun choose(save: () -> Unit) = finishWith(if (isList) PriceListWidget() else SymbolWidget(), save)
+    private fun choose(save: () -> Unit) = finishWith(widget(), save)
+
+    /** The widget to redraw. List widgets share the list setting, symbol widgets the symbol setting. */
+    private fun widget(): GlanceAppWidget = when (receiverClassName) {
+        PriceListWidgetReceiver::class.java.name -> PriceListWidget()
+        MiniListWidgetReceiver::class.java.name -> MiniListWidget()
+        ChartWidgetReceiver::class.java.name -> ChartWidget()
+        else -> SymbolWidget()
+    }
 }
