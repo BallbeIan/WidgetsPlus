@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="clock_title">Clock</string>
+    <string name="clock_description">Digital, world and analog clocks</string>
+    <string name="clock_summary">Nothing to set up</string>
+    <string name="clock_help">Clocks keep time by themselves and follow your phone\'s 12 or 24-hour setting. Tap a clock to open your alarms.</string>
+    <string name="clock_widgets_help">A digital clock can show another time zone with a label, for a world clock. Change it under %1$s on the WidgetsPlus home screen.</string>
+    <string name="widget_digital_clock_name">Clock</string>
+    <string name="widget_digital_clock_description">Time and date, in your time zone or another city\'s</string>
+    <string name="widget_analog_clock_name">Analog clock</string>
+    <string name="widget_analog_clock_description">A clock face in your phone\'s colours</string>
+    <string name="local_time">Local time</string>
+    <string name="local_time_help">Follows your phone, also when you travel</string>
+    <string name="choose_clock">Set up the clock</string>
+    <string name="clock_label_field">Label (optional)</string>
+    <string name="clock_label_help">Shown above the time, for example \"Home\" or \"Office\". Other time zones show the city name if you leave this empty.</string>
+    <string name="other_time_zone">Another time zone</string>
+    <string name="search_city">Search for a city</string>
+    <string name="search_city_hint">Tokyo, New York, London…</string>
+    <string name="no_time_zone_found">No time zone found. Try a nearby large city.</string>
+</resources>

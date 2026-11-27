@@ -16,6 +16,23 @@
 
 WidgetsPlus is a collection of home screen widgets, grouped by category. The app is where you set them up: each category has its own screen, and the home screen shows every WidgetsPlus widget you've placed so you can change what it shows.
 
+### Clock
+
+- **Clock:** time and date in large, clean type. It can show another city's time with a label, for a world clock.
+- **Analog clock:** a clock face in your phone's colours.
+- Clocks keep time by themselves, so they use no battery to tick. Tap one to open your alarms.
+
+### Weather
+
+- Add places by searching for a city. No location permission is needed.
+- The **Weather** widget shows the current temperature and conditions. Make it bigger to add the next hours, then the coming days.
+- °C or °F. Weather data by [Open-Meteo](https://open-meteo.com) (CC BY 4.0).
+
+### Days
+
+- **Countdown:** days to go until an event you add, such as a holiday or a birthday (with yearly repeat), or days since it.
+- **Progress:** how far through today, this week, this month and this year you are.
+
 ### Finance
 
 Stock and crypto prices, from lists you make yourself.
@@ -28,6 +45,7 @@ Stock and crypto prices, from lists you make yourself.
 - Prices update about every 30 minutes in the background, or tap the refresh button. Tap a symbol to open it in Yahoo Finance or Coinbase.
 
 More categories are planned.
+
 
 All widgets follow your phone's light or dark mode and, on Android 12 and newer, its wallpaper colours.
 
@@ -43,9 +61,13 @@ Once WidgetsPlus is on Google Play, the Play version and this APK are signed dif
 
 ## Requirements
 
-Android 8.0 or newer. Finance needs an internet connection.
+Android 8.0 or newer. Weather and Finance need an internet connection.
 
 ## Where the data comes from
+
+### Weather
+
+Forecasts and place search come from [Open-Meteo](https://open-meteo.com), which is free for non-commercial use and needs no key. Its data is licensed under CC BY 4.0.
 
 ### Finance
 
@@ -77,7 +99,7 @@ Release builds are signed with the key in `keystore.properties` (copy `keystore.
 
 ## Privacy
 
-WidgetsPlus has no account and collects nothing. Your settings stay on your phone. Widgets that need online data fetch it directly from the source: for Finance, only the symbol being looked up is sent to Yahoo Finance or Coinbase. See the [privacy policy](docs/PRIVACY.md).
+WidgetsPlus has no account and collects nothing. Your settings stay on your phone. Widgets that need online data fetch it directly from the source: for Weather, only the searched place name or the place's coordinates are sent to Open-Meteo; for Finance, only the symbol being looked up is sent to Yahoo Finance or Coinbase. Clock and Days work entirely offline. See the [privacy policy](docs/PRIVACY.md).
 
 ## Contributing
 

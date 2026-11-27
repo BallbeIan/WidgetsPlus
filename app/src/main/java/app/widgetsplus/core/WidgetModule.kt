@@ -8,7 +8,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import app.widgetsplus.clock.ClockModule
+import app.widgetsplus.days.DaysModule
 import app.widgetsplus.finance.FinanceModule
+import app.widgetsplus.weather.WeatherModule
 
 /**
  * One category of widgets (finance, later weather, exercise, ...). A module owns its data, its settings screen,
@@ -64,7 +67,7 @@ data class WidgetKind(
 data class PlacedWidget(val appWidgetId: Int, val module: WidgetModule, val kind: WidgetKind)
 
 object Modules {
-    val all: List<WidgetModule> = listOf(FinanceModule)
+    val all: List<WidgetModule> = listOf(ClockModule, WeatherModule, FinanceModule, DaysModule)
 
     fun byId(id: String): WidgetModule? = all.firstOrNull { it.id == id }
 

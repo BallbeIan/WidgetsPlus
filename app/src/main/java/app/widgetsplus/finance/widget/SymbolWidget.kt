@@ -31,6 +31,7 @@ import androidx.glance.text.TextStyle
 import app.widgetsplus.R
 import app.widgetsplus.core.ModuleWidgetReceiver
 import app.widgetsplus.core.widget.EmptyMessage
+import app.widgetsplus.core.widget.RefreshAction
 import app.widgetsplus.core.widget.RefreshButton
 import app.widgetsplus.core.widget.WidgetSurface
 import app.widgetsplus.core.widget.openAppIntent
@@ -115,7 +116,7 @@ class SymbolWidget : GlanceAppWidget() {
                         style = TextStyle(color = GlanceTheme.colors.onSurfaceVariant, fontSize = 11.sp),
                         modifier = GlanceModifier.defaultWeight(),
                     )
-                    RefreshButton(actionRunCallback<FinanceRefreshAction>(), s.refreshing)
+                    RefreshButton(actionRunCallback<RefreshAction>(), s.refreshing)
                 }
             }
         }

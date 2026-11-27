@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="weather_title">Weather</string>
+    <string name="weather_description">Current weather and forecast</string>
+    <plurals name="weather_places">
+        <item quantity="zero">No places yet</item>
+        <item quantity="one">%d place</item>
+        <item quantity="other">%d places</item>
+    </plurals>
+    <string name="widget_weather_name">Weather</string>
+    <string name="widget_weather_description">Now, the next hours and the coming days. Make it bigger to see more.</string>
+    <string name="weather_widget_empty">Add a place in WidgetsPlus</string>
+    <string name="weather_widget_no_data">No forecast yet. Check your internet connection.</string>
+    <string name="weather_places">Places</string>
+    <string name="weather_no_places">No places yet. Search for one below.</string>
+    <string name="weather_add_place">Add a place</string>
+    <string name="weather_search_hint">City or town</string>
+    <string name="weather_no_results">No places found.</string>
+    <string name="weather_choose_place">Choose a place</string>
+    <string name="weather_unit">Temperature</string>
+    <string name="weather_celsius">Celsius (°C)</string>
+    <string name="weather_fahrenheit">Fahrenheit (°F)</string>
+    <string name="weather_credit">Weather data by Open-Meteo.com (CC BY 4.0). Only the place you search for or its coordinates are sent; no location permission is used.</string>
+    <string name="weather_high_low">H %1$s · L %2$s</string>
+    <string name="weather_feels_like">Feels like %1$s</string>
+    <string name="weather_now">Now</string>
+    <string name="weather_today">Today</string>
+
+    <string name="wx_clear">Clear</string>
+    <string name="wx_mainly_clear">Mostly clear</string>
+    <string name="wx_partly_cloudy">Partly cloudy</string>
+    <string name="wx_overcast">Cloudy</string>
+    <string name="wx_fog">Fog</string>
+    <string name="wx_drizzle">Drizzle</string>
+    <string name="wx_freezing_rain">Freezing rain</string>
+    <string name="wx_rain">Rain</string>
+    <string name="wx_heavy_rain">Heavy rain</string>
+    <string name="wx_showers">Showers</string>
+    <string name="wx_snow">Snow</string>
+    <string name="wx_heavy_snow">Heavy snow</string>
+    <string name="wx_snow_showers">Snow showers</string>
+    <string name="wx_thunderstorm">Thunderstorm</string>
+    <string name="wx_thunderstorm_hail">Thunderstorm with hail</string>
+    <string name="wx_unknown">—</string>
+</resources>

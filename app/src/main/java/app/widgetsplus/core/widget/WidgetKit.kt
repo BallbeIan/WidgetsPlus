@@ -23,7 +23,6 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.ColumnScope
 import androidx.glance.layout.Row
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
@@ -32,7 +31,11 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import androidx.glance.GlanceId
+import androidx.glance.action.ActionParameters
+import androidx.glance.appwidget.action.ActionCallback
 import app.widgetsplus.R
+import app.widgetsplus.core.RefreshWorker
 import app.widgetsplus.core.ui.MainActivity
 import java.util.Date
 
@@ -60,7 +63,8 @@ fun WidgetSurface(
 @Composable
 fun WidgetHeader(title: String, status: String?, onTitleClick: Action?, refresh: Action?, refreshing: Boolean) {
     Row(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        var titleModifier: GlanceModifier = GlanceModifier
+        // The title takes the leftover width, so a long title is cut short instead of pushing out the button.
+        var titleModifier: GlanceModifier = GlanceModifier.defaultWeight()
         if (onTitleClick != null) titleModifier = titleModifier.clickable(onTitleClick)
         Text(
             title,
@@ -68,7 +72,6 @@ fun WidgetHeader(title: String, status: String?, onTitleClick: Action?, refresh:
             style = TextStyle(color = GlanceTheme.colors.onSurface, fontSize = 14.sp, fontWeight = FontWeight.Bold),
             modifier = titleModifier,
         )
-        Spacer(GlanceModifier.defaultWeight())
         if (status != null) {
             Text(status, maxLines = 1, style = TextStyle(color = GlanceTheme.colors.onSurfaceVariant, fontSize = 11.sp))
         }
@@ -118,4 +121,14 @@ fun refreshStatus(context: Context, lastRefresh: Long, failed: Boolean, refreshi
     lastRefresh == 0L -> context.getString(R.string.not_updated_yet)
     failed -> context.getString(R.string.offline_since, formatTime(context, lastRefresh))
     else -> formatTime(context, lastRefresh)
+}
+
+/**
+ * The refresh button on any widget. Actions run in a short-lived broadcast, so the download itself is handed to
+ * WorkManager, which also waits for a network connection. It refreshes every module that has widgets.
+ */
+class RefreshAction : ActionCallback {
+    override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+        RefreshWorker.refreshSoon(context)
+    }
 }

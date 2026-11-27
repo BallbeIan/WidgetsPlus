@@ -37,6 +37,7 @@ import androidx.glance.text.TextStyle
 import app.widgetsplus.R
 import app.widgetsplus.core.ModuleWidgetReceiver
 import app.widgetsplus.core.widget.EmptyMessage
+import app.widgetsplus.core.widget.RefreshAction
 import app.widgetsplus.core.widget.WidgetHeader
 import app.widgetsplus.core.widget.WidgetSurface
 import app.widgetsplus.core.widget.openAppIntent
@@ -75,7 +76,7 @@ class PriceListWidget : GlanceAppWidget() {
                     title = list?.name ?: context.getString(R.string.finance_title),
                     status = refreshStatus(context, s.lastRefresh, s.lastRefreshFailed, s.refreshing),
                     onTitleClick = openApp,
-                    refresh = actionRunCallback<FinanceRefreshAction>(),
+                    refresh = actionRunCallback<RefreshAction>(),
                     refreshing = s.refreshing,
                 )
             }

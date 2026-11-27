@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Used by modules that fetch data online (finance: Yahoo Finance and Coinbase). -->
+    <!-- Used by modules that fetch data online: Finance (Yahoo Finance, Coinbase) and Weather (Open-Meteo). -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Lets the clock widgets check that a clock app exists before opening it (Android 11 package visibility). -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SHOW_ALARMS" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -19,6 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Redraws widgets when the time or time zone changes (both broadcasts may still be declared here). -->
+        <receiver
+            android:name=".core.TimeChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <!--
             Widget receivers. Their class names are what the launcher stores for placed widgets:
@@ -59,6 +76,100 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/finance_list_widget_info" />
+        </receiver>
+        <!-- Clock -->
+        <activity
+            android:name=".clock.ClockConfigureActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".clock.DigitalClockWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_digital_clock_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_digital_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".clock.AnalogClockWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_analog_clock_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_analog_widget_info" />
+        </receiver>
+
+        <!-- Weather -->
+        <activity
+            android:name=".weather.ui.WeatherConfigureActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".weather.WeatherWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_weather_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weather_widget_info" />
+        </receiver>
+        <!-- Days -->
+        <activity
+            android:name=".days.ui.CountdownConfigureActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".days.widget.CountdownWidgetReceiver"
+            android:exported="true"
+            android:label="@string/days_widget_countdown_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/days_countdown_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".days.widget.ProgressWidgetReceiver"
+            android:exported="true"
+            android:label="@string/days_widget_progress_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/days_progress_widget_info" />
         </receiver>
     </application>
 </manifest>

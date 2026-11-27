@@ -6,13 +6,9 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.glance.GlanceId
-import androidx.glance.action.ActionParameters
-import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.color.ColorProvider
 import app.widgetsplus.core.widget.Charts
 import app.widgetsplus.finance.FinanceFormat
-import app.widgetsplus.core.RefreshWorker
 import app.widgetsplus.finance.Quote
 import app.widgetsplus.finance.WatchItem
 
@@ -38,13 +34,3 @@ fun priceChart(context: Context, quote: Quote, widthDp: Float, heightDp: Float):
 /** Opens the symbol in the Yahoo Finance or Coinbase app if installed, otherwise in the browser. */
 fun openPageIntent(item: WatchItem): Intent =
     Intent(Intent.ACTION_VIEW, FinanceFormat.pageFor(item)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-/**
- * The refresh button on the finance widgets. Actions run in a short-lived broadcast, so the download itself is
- * handed to WorkManager, which also waits for a network connection.
- */
-class FinanceRefreshAction : ActionCallback {
-    override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-        RefreshWorker.refreshSoon(context)
-    }
-}

@@ -1,0 +1,40 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp" android:height="200dp" android:viewportWidth="200" android:viewportHeight="200">
+    <path android:fillColor="@color/clock_face" android:pathData="M100,1a99,99 0 1,0 0.01,0z" />
+    <group android:rotation="0" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M97,8h6v20h-6z" />
+    </group>
+    <group android:rotation="30" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="60" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="90" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M97,8h6v20h-6z" />
+    </group>
+    <group android:rotation="120" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="150" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="180" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M97,8h6v20h-6z" />
+    </group>
+    <group android:rotation="210" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="240" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="270" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M97,8h6v20h-6z" />
+    </group>
+    <group android:rotation="300" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+    <group android:rotation="330" android:pivotX="100" android:pivotY="100">
+        <path android:fillColor="@color/clock_tick" android:pathData="M98.5,10h3v12h-3z" />
+    </group>
+</vector>

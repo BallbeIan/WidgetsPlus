@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Days -->
+    <string name="days_title">Days</string>
+    <string name="days_description">Countdowns and progress</string>
+    <string name="days_summary_empty">No events yet</string>
+    <plurals name="days_events">
+        <item quantity="one">%d event</item>
+        <item quantity="other">%d events</item>
+    </plurals>
+
+    <string name="days_widget_countdown_name">Countdown</string>
+    <string name="days_widget_countdown_description">Days to go until one of your events, or days since it</string>
+    <string name="days_widget_progress_name">Progress</string>
+    <string name="days_widget_progress_description">How far through today, this week, this month and this year you are</string>
+    <string name="days_progress_describe">Today, week, month, year</string>
+    <string name="days_widget_empty">Add an event in WidgetsPlus</string>
+
+    <string name="days_today">Today</string>
+    <string name="days_this_week">This week</string>
+    <string name="days_this_month">This month</string>
+    <string name="days_this_year">This year</string>
+    <!-- Under the big number on the countdown widget -->
+    <plurals name="days_to_go_label">
+        <item quantity="one">day to go</item>
+        <item quantity="other">days to go</item>
+    </plurals>
+    <plurals name="days_ago_label">
+        <item quantity="one">day ago</item>
+        <item quantity="other">days ago</item>
+    </plurals>
+    <plurals name="days_count_to_go">
+        <item quantity="one">%s day to go</item>
+        <item quantity="other">%s days to go</item>
+    </plurals>
+    <plurals name="days_count_ago">
+        <item quantity="one">%s day ago</item>
+        <item quantity="other">%s days ago</item>
+    </plurals>
+    <string name="days_date_yearly">%1$s · every year</string>
+
+    <string name="days_events_title">Events</string>
+    <string name="days_no_events">No events yet. Add a birthday, a holiday or a deadline.</string>
+    <string name="days_add_event">Add event</string>
+    <string name="days_name_hint">Birthday, holiday, …</string>
+    <string name="days_repeats_yearly">Repeats every year</string>
+    <string name="days_delete_event">Delete %1$s</string>
+    <string name="days_delete_title">Delete %1$s?</string>
+    <string name="days_delete_text">Countdown widgets showing it will switch to your next event.</string>
+    <string name="days_widgets_help">Countdowns and progress bars update about every 30 minutes. Tap a widget to open this screen.</string>
+
+    <string name="days_choose_event">Choose an event</string>
+    <string name="days_choose_event_help">Events are managed in the app under Days. On Android 12 and newer you can also long-press the widget to change it.</string>
+</resources>
